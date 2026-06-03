@@ -1429,7 +1429,7 @@
       <label>Role</label>
       <select id="login-role">
         <option value="treasurer">Treasurer</option>
-        <option value="auditor">Auditor (read only)</option>
+        <option value="auditor">Auditor (Read Only)</option>
       </select>
     </div>
     <div class="login-field">
@@ -1454,7 +1454,7 @@
     </div>
     <div class="topbar-right">
       <button class="btn-nav" onclick="showMembers()">👥 Members</button>
-      <button class="btn-logout" onclick="doLogout()">Sign out</button>
+      <button class="btn-logout" onclick="doLogout()">Sign Out</button>
     </div>
   </div>
 
@@ -1482,7 +1482,7 @@
         </div>
         <div style="display:flex;gap:8px;align-items:center;">
           <select id="month-select" style="padding:8px 12px;border:1px solid var(--border);border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:14px;background:white;color:var(--navy);" onchange="renderDashboard()">
-            <option value="all">All time</option>
+            <option value="all">All Time</option>
             <option value="0">January</option>
             <option value="1">February</option>
             <option value="2">March</option>
@@ -1524,7 +1524,7 @@
               </div>
               <div class="inv-row">
                 <span class="inv-bank">MLC Master Card investment</span>
-                <span class="inv-due">Leave alone</span>
+                <span class="inv-due">Leave Alone</span>
                 <span class="inv-amt">$170,000.00</span>
               </div>
             </div>
@@ -1539,7 +1539,7 @@
             <div class="side-panel-header">
               <span class="side-panel-title">Upcoming events</span>
               <div style="display:flex;gap:6px;">
-                <button class="btn-icon" onclick="navTo('allevents')" style="font-size:12px;padding:4px 9px;">View all →</button>
+                <button class="btn-icon" onclick="navTo('allevents')" style="font-size:12px;padding:4px 9px;">View All →</button>
                 <button class="btn-icon" id="add-event-btn" onclick="openEventModal(null)" style="font-size:12px;padding:4px 9px;">+ Add</button>
               </div>
             </div>
@@ -1550,7 +1550,7 @@
           <div class="side-panel" id="rtx-panel" style="flex:1;">
             <div class="side-panel-header">
               <span class="side-panel-title">Recent transactions</span>
-              <button class="btn-icon" onclick="navTo('alltx')" style="font-size:12px;padding:4px 9px;">View all →</button>
+              <button class="btn-icon" onclick="navTo('alltx')" style="font-size:12px;padding:4px 9px;">View All →</button>
             </div>
             <div id="recent-tx-list"></div>
           </div>
@@ -1563,7 +1563,7 @@
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
           <div style="font-size:13px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em;">Calendar</div>
           <div style="display:flex;gap:8px;">
-          <button class="cal-print-btn" onclick="syncAllEventsToGcal()">🔄 Sync all events</button>
+          <button class="cal-print-btn" onclick="syncAllEventsToGcal()">🔄 Sync All Events</button>
           <button class="cal-print-btn" onclick="window.open('https://calendar.google.com/calendar/u/1/r','_blank')">📅 Open Google Calendar</button>
         </div>
         </div>
@@ -1583,16 +1583,16 @@
         </div>
       </div>
       <div class="action-bar" id="action-bar">
-        <button class="btn btn-gold" onclick="openTxModal(null)">+ Add transaction</button>
-        <button class="btn btn-secondary" onclick="openImportModal()">📥 Import from bank</button>
-        <button class="btn btn-secondary" onclick="exportBackup()">💾 Backup data</button>
-        <label class="btn btn-secondary" style="cursor:pointer;">📂 Restore backup <input type="file" accept=".json" style="display:none" onchange="importBackup(event)"></label>
+        <button class="btn btn-gold" onclick="openTxModal(null)">+ Add Transaction</button>
+        <button class="btn btn-secondary" onclick="openImportModal()">📥 Import from Bank</button>
+        <button class="btn btn-secondary" onclick="exportBackup()">💾 Backup Data</button>
+        <label class="btn btn-secondary" style="cursor:pointer;">📂 Restore Backup <input type="file" accept=".json" style="display:none" onchange="importBackup(event)"></label>
       </div>
     </div>
 
     <!-- ── ACCOUNT DETAIL ── -->
     <div id="detail-view">
-      <button class="back-btn" onclick="navTo('home')">← Back to dashboard</button>
+      <button class="back-btn" onclick="navTo('home')">← Back to Dashboard</button>
       <div class="detail-header">
         <div>
           <div class="detail-bal-label" id="detail-name">Account</div>
@@ -1611,14 +1611,14 @@
       </div>
 
       <div class="action-bar" id="detail-action-bar">
-        <button class="btn btn-gold" id="detail-add-btn" onclick="openTxModal(currentAccount)">+ Add transaction</button>
+        <button class="btn btn-gold" id="detail-add-btn" onclick="openTxModal(currentAccount)">+ Add Transaction</button>
         <button class="btn btn-secondary" onclick="window.print()">🖨 Print</button>
       </div>
 
       <div class="filter-bar">
         <span style="font-size:13px;color:var(--text-muted);">Filter:</span>
         <select id="detail-month" onchange="renderDetail(currentAccount)">
-          <option value="all">All time</option>
+          <option value="all">All Time</option>
           <option value="0">January</option>
           <option value="1">February</option>
           <option value="2">March</option>
@@ -1633,9 +1633,9 @@
           <option value="11">December</option>
         </select>
         <select id="detail-type" onchange="renderDetail(currentAccount)">
-          <option value="all">All types</option>
-          <option value="income">Income only</option>
-          <option value="expense">Expenses only</option>
+          <option value="all">All Types</option>
+          <option value="income">Income Only</option>
+          <option value="expense">Expenses Only</option>
         </select>
       </div>
 
@@ -1653,7 +1653,7 @@
 
     <!-- ── ALL EVENTS VIEW ── -->
     <div id="allevents-view" style="display:none;">
-      <button class="back-btn" onclick="navTo('home')">← Back to dashboard</button>
+      <button class="back-btn" onclick="navTo('home')">← Back to Dashboard</button>
       <div class="page-header">
         <div>
           <div class="page-title">All events</div>
@@ -1663,22 +1663,22 @@
           <button class="btn btn-secondary" onclick="window.open('https://calendar.google.com/calendar/u/1/r','_blank')">📅 Google Calendar</button>
           <button class="btn btn-secondary" onclick="window.open('https://calendar.google.com/calendar/u/1/r','_blank')">📅 Google Calendar</button>
           <button class="btn btn-secondary" onclick="window.print()">🖨 Print</button>
-          <button class="btn btn-gold" id="allevents-add-btn" onclick="openEventModal(null)">+ Add event</button>
+          <button class="btn btn-gold" id="allevents-add-btn" onclick="openEventModal(null)">+ Add Event</button>
         </div>
       </div>
 
       <!-- Filter -->
       <div style="display:flex;gap:8px;margin-bottom:1.2rem;flex-wrap:wrap;">
         <select id="allevents-filter" onchange="renderAllEvents()" style="padding:9px 12px;border:1px solid var(--border);border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:14px;background:white;color:var(--navy);">
-          <option value="all">All types</option>
-          <option value="meeting">Club meetings</option>
+          <option value="all">All Types</option>
+          <option value="meeting">Club Meetings</option>
           <option value="fundraiser">Fundraisers</option>
-          <option value="social">Social events</option>
+          <option value="social">Social Events</option>
           <option value="birthday">Birthdays</option>
           <option value="other">Other</option>
         </select>
         <select id="allevents-month" onchange="renderAllEvents()" style="padding:9px 12px;border:1px solid var(--border);border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:14px;background:white;color:var(--navy);">
-          <option value="all">All months</option>
+          <option value="all">All Months</option>
           <option value="0">January</option><option value="1">February</option>
           <option value="2">March</option><option value="3">April</option>
           <option value="4">May</option><option value="5">June</option>
@@ -1693,7 +1693,7 @@
 
     <!-- ── ALL TRANSACTIONS VIEW ── -->
     <div id="alltx-view" style="display:none;">
-      <button class="back-btn" onclick="navTo('home')">← Back to dashboard</button>
+      <button class="back-btn" onclick="navTo('home')">← Back to Dashboard</button>
       <div class="page-header">
         <div>
           <div class="page-title">All transactions</div>
@@ -1702,7 +1702,7 @@
         <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
           <button class="btn btn-secondary" onclick="exportAllTxCSV()">⬇ Export CSV</button>
           <button class="btn btn-secondary" onclick="window.print()">🖨 Print</button>
-          <button class="btn btn-gold" onclick="openTxModal(null)" id="alltx-add-btn">+ Add transaction</button>
+          <button class="btn btn-gold" onclick="openTxModal(null)" id="alltx-add-btn">+ Add Transaction</button>
         </div>
       </div>
 
@@ -1719,11 +1719,11 @@
         </select>
         <select id="alltx-type" onchange="renderAllTx()" style="padding:9px 12px;border:1px solid var(--border);border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:14px;background:white;color:var(--navy);">
           <option value="all">Income &amp; expenses</option>
-          <option value="income">Income only</option>
-          <option value="expense">Expenses only</option>
+          <option value="income">Income Only</option>
+          <option value="expense">Expenses Only</option>
         </select>
         <select id="alltx-month" onchange="renderAllTx()" style="padding:9px 12px;border:1px solid var(--border);border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:14px;background:white;color:var(--navy);">
-          <option value="all">All months</option>
+          <option value="all">All Months</option>
           <option value="0">January</option>
           <option value="1">February</option>
           <option value="2">March</option>
@@ -1758,11 +1758,11 @@
 
     <!-- ── INVESTMENTS VIEW ── -->
     <div id="investments-view" style="display:none;">
-      <button class="back-btn" onclick="navTo('home')">← Back to dashboard</button>
+      <button class="back-btn" onclick="navTo('home')">← Back to Dashboard</button>
       <div class="page-header">
         <div>
           <div class="page-title">Investment accounts</div>
-          <div class="page-sub">View only — contact your bank for changes</div>
+          <div class="page-sub">View Only — contact your bank for changes</div>
         </div>
       </div>
       <div class="inv-card" style="margin-bottom:1rem;">
@@ -1791,7 +1791,7 @@
           <div class="inv-row">
             <div>
               <div class="inv-bank">MLC Master Card</div>
-              <div class="inv-due">Investment account · Leave alone</div>
+              <div class="inv-due">Investment account · Leave Alone</div>
             </div>
             <div style="text-align:right;">
               <div class="inv-amt">$170,000.00</div>
@@ -1808,7 +1808,7 @@
 
     <!-- ── MEMBERS VIEW ── -->
     <div id="members-view" style="display:none;">
-      <button class="back-btn" onclick="navTo('home')">← Back to dashboard</button>
+      <button class="back-btn" onclick="navTo('home')">← Back to Dashboard</button>
       <div class="page-header">
         <div>
           <div class="page-title">Members directory</div>
@@ -1817,7 +1817,7 @@
         <div style="display:flex;gap:8px;">
           <button class="btn btn-secondary" onclick="exportMembers()">⬇ Export CSV</button>
           <button class="btn btn-secondary" onclick="openEmailModal()" id="email-btn">✉ Email members</button>
-          <button class="btn btn-gold" id="add-member-btn" onclick="openMemberModal(null)">+ Add member</button>
+          <button class="btn btn-gold" id="add-member-btn" onclick="openMemberModal(null)">+ Add Member</button>
         </div>
       </div>
 
@@ -1826,7 +1826,7 @@
       <div class="members-search">
         <input type="text" id="member-search" placeholder="Search by name, phone or email…" oninput="renderMembers()">
         <select id="member-filter" onchange="renderMembers()" style="padding:10px 12px;border:1px solid var(--border);border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:14px;background:white;color:var(--navy);">
-          <option value="all">All members</option>
+          <option value="all">All Members</option>
           <option value="paid">Paid only</option>
           <option value="unpaid">Unpaid only</option>
         </select>
@@ -1847,7 +1847,7 @@
         <p>
           <a href="#" onclick="navTo('home');return false;">Dashboard</a><br>
           <a href="#" onclick="showMembers();return false;">Members directory</a><br>
-          <a href="#" onclick="openTxModal(null);return false;">Add transaction</a>
+          <a href="#" onclick="openTxModal(null);return false;">Add Transaction</a>
         </p>
       </div>
       <div class="footer-col">
@@ -1869,7 +1869,7 @@
 <!-- ══════════════ ADD TRANSACTION MODAL ══════════════ -->
 <div class="modal-bg" id="tx-modal">
   <div class="modal">
-    <div class="modal-title">Add transaction</div>
+    <div class="modal-title">Add Transaction</div>
 
     <div class="form-group">
       <label>Account</label>
@@ -1921,7 +1921,7 @@
 
     <div class="modal-actions">
       <button class="btn btn-secondary" onclick="closeTxModal()">Cancel</button>
-      <button class="btn btn-gold" onclick="saveTx()">Save transaction</button>
+      <button class="btn btn-gold" onclick="saveTx()">Save Transaction</button>
     </div>
   </div>
 </div>
@@ -1940,7 +1940,7 @@
 <!-- ══════════════ MEMBER MODAL ══════════════ -->
 <div class="modal-bg" id="member-modal">
   <div class="modal">
-    <div class="modal-title" id="member-modal-title">Add member</div>
+    <div class="modal-title" id="member-modal-title">Add Member</div>
 
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:0 14px;">
       <div class="form-group">
@@ -1977,13 +1977,13 @@
       <label>Membership fee</label>
       <div class="paid-toggle">
         <button id="btn-paid"   class="active-paid"   onclick="setMemberPaid(true)">Paid</button>
-        <button id="btn-unpaid"                        onclick="setMemberPaid(false)">Not yet paid</button>
+        <button id="btn-unpaid"                        onclick="setMemberPaid(false)">Not Yet Paid</button>
       </div>
     </div>
 
     <div class="modal-actions">
       <button class="btn btn-secondary" onclick="closeMemberModal()">Cancel</button>
-      <button class="btn btn-gold" onclick="saveMember()">Save member</button>
+      <button class="btn btn-gold" onclick="saveMember()">Save Member</button>
     </div>
   </div>
 </div>
@@ -1993,9 +1993,9 @@
   <div class="modal" style="max-width:560px;">
     <div class="modal-title">Email members</div>
     <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;">
-      <button class="btn btn-secondary" style="font-size:13px;padding:7px 14px;" onclick="selectAllEmailMembers(true)">Select all</button>
-      <button class="btn btn-secondary" style="font-size:13px;padding:7px 14px;" onclick="selectAllEmailMembers(false)">Clear all</button>
-      <button class="btn btn-secondary" style="font-size:13px;padding:7px 14px;" onclick="selectPaidEmailMembers()">Paid members only</button>
+      <button class="btn btn-secondary" style="font-size:13px;padding:7px 14px;" onclick="selectAllEmailMembers(true)">Select All</button>
+      <button class="btn btn-secondary" style="font-size:13px;padding:7px 14px;" onclick="selectAllEmailMembers(false)">Clear All</button>
+      <button class="btn btn-secondary" style="font-size:13px;padding:7px 14px;" onclick="selectPaidEmailMembers()">Paid Members Only</button>
     </div>
     <div id="email-member-list" style="max-height:260px;overflow-y:auto;border:1px solid var(--border);border-radius:var(--radius);margin-bottom:1rem;"></div>
     <div class="form-group">
@@ -2011,7 +2011,7 @@
     </div>
     <div class="modal-actions">
       <button class="btn btn-secondary" onclick="document.getElementById('email-modal').classList.remove('open')">Cancel</button>
-      <button class="btn btn-gold" onclick="sendGroupEmail()">Open in email app</button>
+      <button class="btn btn-gold" onclick="sendGroupEmail()">Open in Email App</button>
     </div>
   </div>
 </div>
@@ -2019,7 +2019,7 @@
 <!-- ══════════════ EVENT MODAL ══════════════ -->
 <div class="modal-bg" id="event-modal">
   <div class="modal" style="max-width:460px;">
-    <div class="modal-title" id="event-modal-title">Add event</div>
+    <div class="modal-title" id="event-modal-title">Add Event</div>
     <div class="form-group">
       <label>Event name</label>
       <input type="text" id="ev-name" placeholder="e.g. Club meeting, Bunnings BBQ, Birthday">
@@ -2044,7 +2044,7 @@
     </div>
     <div class="modal-actions">
       <button class="btn btn-secondary" onclick="closeEventModal()">Cancel</button>
-      <button class="btn btn-gold" onclick="saveEvent()">Save event</button>
+      <button class="btn btn-gold" onclick="saveEvent()">Save Event</button>
     </div>
   </div>
 </div>
@@ -2152,20 +2152,20 @@ const ACCOUNTS = [
 
 const CATEGORIES = {
   tipshop: {
-    income:  ['Sales — cash', 'Sales — EFTPOS', 'Other income'],
-    expense: ['Workers compensation', 'Stationery', 'Other expense'],
+    income:  ['Sales — cash', 'Sales — EFTPOS', 'Other Income'],
+    expense: ['Workers compensation', 'Stationery', 'Other Expense'],
   },
   activities: {
-    income:  ['BBQ — cash', 'BBQ — EFTPOS', 'Pancake breakfast', 'Bunnings sausage sizzle', 'Cake stall', 'Mints', 'Anzac Day', 'Book sales', 'Donation', 'Other income'],
-    expense: ['Food & supplies', 'Equipment', 'Venue hire', 'Other expense'],
+    income:  ['BBQ — cash', 'BBQ — EFTPOS', 'Pancake breakfast', 'Bunnings sausage sizzle', 'Cake stall', 'Mints', 'Anzac Day', 'Book sales', 'Donation', 'Other Income'],
+    expense: ['Food & supplies', 'Equipment', 'Venue hire', 'Other Expense'],
   },
   convention: {
-    income:  ['Lions events', 'Devonport Racing Club', 'Uniform sales', 'Membership activities', 'Other income'],
-    expense: ['Member travel to conventions', 'Dinner meeting reimbursement', 'Uniforms', 'Other expense'],
+    income:  ['Lions events', 'Devonport Racing Club', 'Uniform sales', 'Membership activities', 'Other Income'],
+    expense: ['Member travel to conventions', 'Dinner meeting reimbursement', 'Uniforms', 'Other Expense'],
   },
   admin: {
-    income:  ['Lionella', 'Raffle proceeds', 'Membership fees', 'Other income'],
-    expense: ['Stationery', 'Member badges', 'Awards', 'Auditor fees', 'Diary', 'Post box rental', 'Computer supplies', 'Incorporation fees', 'Other expense'],
+    income:  ['Lionella', 'Raffle proceeds', 'Membership fees', 'Other Income'],
+    expense: ['Stationery', 'Member badges', 'Awards', 'Auditor fees', 'Diary', 'Post box rental', 'Computer supplies', 'Incorporation fees', 'Other Expense'],
   },
 };
 
@@ -2258,7 +2258,7 @@ function renderDashboard() {
 
   const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
   document.getElementById('dash-period').textContent =
-    (monthVal === 'all' ? 'All time' : months[parseInt(monthVal)]) + ' 2026 · All accounts';
+    (monthVal === 'all' ? 'All Time' : months[parseInt(monthVal)]) + ' 2026 · All accounts';
 
   document.getElementById('summary-strip').innerHTML = `
     <div class="sum-card"><div class="sum-label">Total income</div><div class="sum-val pos">${fmt(totals.inc)}</div></div>
@@ -2282,7 +2282,7 @@ function renderDashboard() {
     div.innerHTML = `
       <div class="acct-top">
         <span class="acct-name">${acct.label}</span>
-        <span class="acct-tap">Tap to open →</span>
+        <span class="acct-tap">Tap to Open →</span>
       </div>
       <div class="acct-balance">${fmt(t.net)}</div>
       <div class="acct-io">
@@ -2766,7 +2766,7 @@ async function gcalCreateBirthday(first, last, dob) {
       body:    JSON.stringify(body),
     });
     if (!resp.ok) throw new Error('Failed');
-    showToast(first + "'s birthday added to Google Calendar ✓");
+    showToast(first + "'s Birthday added to Google Calendar ✓");
   } catch(e) {
     console.error('gcalCreateBirthday error:', e);
   }
@@ -3055,7 +3055,7 @@ async function confirmImport() {
     var dbRow = {
       account:     row.account,
       type:        row.type,
-      category:    row.type === 'income' ? 'Other income' : 'Other expense',
+      category:    row.type === 'income' ? 'Other Income' : 'Other Expense',
       amount:      row.amount,
       description: row.desc,
       date:        row.date,
@@ -3195,7 +3195,7 @@ function buildAllEvents() {
       const bd = new Date(y, dobM, dobD);
       evs.push({
         id: 'BD-' + m.id + '-' + y,
-        name: m.first + ' ' + m.last + "'s birthday",
+        name: m.first + ' ' + m.last + "'s Birthday",
         date: bd.getFullYear() + '-' + String(bd.getMonth()+1).padStart(2,'0') + '-' + String(bd.getDate()).padStart(2,'0'),
         type: 'birthday',
         notes: '',
@@ -3250,7 +3250,7 @@ function navTo(target) {
     if (el) el.style.display = 'none';
   });
 
-  // Clear all active nav buttons
+  // Clear All active nav buttons
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
 
   if (target === 'home') {
@@ -3326,7 +3326,7 @@ function allUpcomingEvents() {
       if (bd >= today) {
         evs.push({
           id: 'BD-' + m.id + '-' + y,
-          name: m.first + ' ' + m.last + "'s birthday",
+          name: m.first + ' ' + m.last + "'s Birthday",
           date: bd.getFullYear() + '-' + String(bd.getMonth()+1).padStart(2,'0') + '-' + String(bd.getDate()).padStart(2,'0'),
           type: 'birthday',
           notes: '',
@@ -3380,7 +3380,7 @@ function openEventModal(id) {
   if (currentRole === 'auditor') return;
   editingEventId = id;
   const ev = id ? events.find(e => e.id === id) : null;
-  document.getElementById('event-modal-title').textContent = ev ? 'Edit event' : 'Add event';
+  document.getElementById('event-modal-title').textContent = ev ? 'Edit event' : 'Add Event';
   document.getElementById('ev-name').value  = ev ? ev.name  : '';
   document.getElementById('ev-date').value  = ev ? ev.date  : new Date().toISOString().split('T')[0];
   document.getElementById('ev-type').value  = ev ? ev.type  : 'meeting';
@@ -3526,9 +3526,9 @@ function renderMembers() {
     total + ' member' + (total !== 1 ? 's' : '') + ' · Port Sorell Lions Club';
 
   document.getElementById('members-stats').innerHTML = `
-    <div class="sum-card"><div class="sum-label">Total members</div><div class="sum-val">${total}</div></div>
-    <div class="sum-card"><div class="sum-label">Fees paid</div><div class="sum-val pos">${paid}</div></div>
-    <div class="sum-card"><div class="sum-label">Fees outstanding</div><div class="sum-val ${unpaid > 0 ? 'neg' : ''}">${unpaid}</div></div>
+    <div class="sum-card"><div class="sum-label">Total Members</div><div class="sum-val">${total}</div></div>
+    <div class="sum-card"><div class="sum-label">Fees Paid</div><div class="sum-val pos">${paid}</div></div>
+    <div class="sum-card"><div class="sum-label">Fees Outstanding</div><div class="sum-val ${unpaid > 0 ? 'neg' : ''}">${unpaid}</div></div>
   `;
 
   let filtered = members.filter(m => {
@@ -3542,7 +3542,7 @@ function renderMembers() {
 
   const list = document.getElementById('members-list');
   if (filtered.length === 0) {
-    list.innerHTML = '<div class="members-empty">' + (members.length === 0 ? 'No members yet. Click "+ Add member" to get started.' : 'No members match your search.') + '</div>';
+    list.innerHTML = '<div class="members-empty">' + (members.length === 0 ? 'No members yet. Click "+ Add Member" to get started.' : 'No members match your search.') + '</div>';
     return;
   }
 
@@ -3561,7 +3561,7 @@ function renderMembers() {
           <div class="member-detail">${lines || 'No contact details added'}</div>
         </div>
         <div class="member-actions">
-          <span class="member-badge ${m.paid ? 'badge-paid' : 'badge-unpaid'}">${m.paid ? 'Fee paid' : 'Fee owing'}</span>
+          <span class="member-badge ${m.paid ? 'badge-paid' : 'badge-unpaid'}">${m.paid ? 'Fee Paid' : 'Fee Owing'}</span>
           ${editBtn}
         </div>
       </div>`;
@@ -3571,7 +3571,7 @@ function renderMembers() {
 function openMemberModal(id) {
   editingMemberId = id;
   const m = id ? members.find(x => x.id === id) : null;
-  document.getElementById('member-modal-title').textContent = m ? 'Edit member' : 'Add member';
+  document.getElementById('member-modal-title').textContent = m ? 'Edit member' : 'Add Member';
   document.getElementById('m-first').value   = m ? m.first   : '';
   document.getElementById('m-last').value    = m ? m.last    : '';
   document.getElementById('m-address').value = m ? m.address : '';
@@ -3655,7 +3655,7 @@ async function deleteMember(id) {
 
 function exportMembers() {
   if (members.length === 0) { showToast('No members to export'); return; }
-  const rows = [['First name','Last name','Address','Phone','Email','Fee paid','Date joined']];
+  const rows = [['First name','Last name','Address','Phone','Email','Fee Paid','Date joined']];
   members.slice().sort((a,b) => a.last.localeCompare(b.last)).forEach(m => {
     rows.push([m.first, m.last, m.address||'', m.phone||'', m.email||'', m.paid ? 'Yes' : 'No', m.joined||'']);
   });
