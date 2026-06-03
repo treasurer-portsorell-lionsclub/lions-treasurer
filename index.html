@@ -1652,6 +1652,8 @@
     <button class="nav-btn gray"  id="nav-investments" onclick="navTo('investments')">Investments</button>
     <div class="nav-divider"></div>
     <button class="nav-btn" id="nav-alltx" onclick="navTo('alltx')">All Transactions</button>
+    <div class="nav-divider"></div>
+    <button class="nav-btn" id="nav-reports" onclick="navTo('reports')">📋 Reports</button>
   </nav>
 
   <div class="main">
@@ -1766,7 +1768,7 @@
         <button class="btn btn-gold" onclick="openTxModal(null)">+ Add Transaction</button>
         <button class="btn btn-secondary" onclick="downloadAllReceipts()">🧾 Download Receipts</button>
         <button class="btn btn-secondary" onclick="openImportModal()">📥 Import Bank Statement</button>
-        <button class="btn btn-secondary" onclick="openMeetingReport()">📋 Meeting Report</button>
+        <button class="btn btn-secondary" onclick="navTo('reports')">📋 Reports</button>
         <button class="btn btn-secondary" onclick="exportBackup()">💾 Backup Data</button>
       </div>
 
@@ -1779,11 +1781,11 @@
             <span id="guide-chevron" style="font-size:12px;opacity:0.8;">▼</span>
           </button>
           <button class="btn-guide btn-guide-red" onclick="window.open('https://drive.google.com/drive/folders/1igINgSjkupj-bBXmDapZT2PF7RwVcnCP?usp=sharing','_blank')">
-            <span class="guide-icon">📁</span>
+            <span class="guide-icon" style="display:flex;align-items:center;"><svg width="22" height="22" viewBox="0 0 87.3 78" xmlns="http://www.w3.org/2000/svg"><path d="m6.6 66.85 3.85 6.65c.8 1.4 1.95 2.5 3.3 3.3l13.75-23.8h-27.5c0 1.55.4 3.1 1.2 4.5z" fill="#0066da"/><path d="m43.65 25-13.75-23.8c-1.35.8-2.5 1.9-3.3 3.3l-25.4 44a9.06 9.06 0 0 0 -1.2 4.5h27.5z" fill="#00ac47"/><path d="m73.55 76.8c1.35-.8 2.5-1.9 3.3-3.3l1.6-2.75 7.65-13.25c.8-1.4 1.2-2.95 1.2-4.5h-27.502l5.852 11.5z" fill="#ea4335"/><path d="m43.65 25 13.75-23.8c-1.35-.8-2.9-1.2-4.5-1.2h-18.5c-1.6 0-3.15.45-4.5 1.2z" fill="#00832d"/><path d="m59.8 53h-32.3l-13.75 23.8c1.35.8 2.9 1.2 4.5 1.2h50.8c1.6 0 3.15-.45 4.5-1.2z" fill="#2684fc"/><path d="m73.4 26.5-12.7-22c-.8-1.4-1.95-2.5-3.3-3.3l-13.75 23.8 16.15 28h27.45c0-1.55-.4-3.1-1.2-4.5z" fill="#ffba00"/></svg></span>
             <span style="flex:1;">Google Drive Documents</span>
           </button>
           <button class="btn-guide btn-guide-gold" onclick="window.open('https://calendar.google.com/calendar/u/1/r','_blank')">
-            <span class="guide-icon">🗓️</span>
+            <span class="guide-icon" style="display:flex;align-items:center;"><svg width="22" height="22" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><rect width="24" height="24" rx="3" fill="white"/><rect x="1" y="5" width="22" height="18" rx="2" fill="white" stroke="#dadce0" stroke-width="1.5"/><path d="M1 9h22" stroke="#dadce0" stroke-width="1.5"/><rect x="7" y="1" width="2.5" height="6" rx="1.25" fill="#1a73e8"/><rect x="14.5" y="1" width="2.5" height="6" rx="1.25" fill="#1a73e8"/><text x="12" y="19" text-anchor="middle" font-size="7" font-family="Arial,sans-serif" font-weight="900" fill="#1a73e8">31</text><rect x="3" y="11" width="5" height="1.5" rx=".75" fill="#ea4335"/><rect x="3" y="14" width="7" height="1.5" rx=".75" fill="#5f6368"/><rect x="3" y="17" width="5" height="1.5" rx=".75" fill="#5f6368"/></svg></span>
             <span style="flex:1;">Open Google Calendar</span>
           </button>
         </div>
@@ -1799,7 +1801,7 @@
             <div class="guide-card" onclick="openGuide('add-member')"><div class="guide-card-icon">👤</div><div><div class="guide-card-title">Adding a member</div><div class="guide-card-desc">Adding new members and tracking their membership fees</div></div></div>
             <div class="guide-card" onclick="openGuide('add-event')"><div class="guide-card-icon">📅</div><div><div class="guide-card-title">Adding an event</div><div class="guide-card-desc">Adding club meetings, fundraisers and birthdays to the calendar</div></div></div>
             <div class="guide-card" onclick="openGuide('google-drive')"><div class="guide-card-icon" style="line-height:1;"><svg width="24" height="24" viewBox="0 0 87.3 78" xmlns="http://www.w3.org/2000/svg"><path d="m6.6 66.85 3.85 6.65c.8 1.4 1.95 2.5 3.3 3.3l13.75-23.8h-27.5c0 1.55.4 3.1 1.2 4.5z" fill="#0066da"/><path d="m43.65 25-13.75-23.8c-1.35.8-2.5 1.9-3.3 3.3l-25.4 44a9.06 9.06 0 0 0 -1.2 4.5h27.5z" fill="#00ac47"/><path d="m73.55 76.8c1.35-.8 2.5-1.9 3.3-3.3l1.6-2.75 7.65-13.25c.8-1.4 1.2-2.95 1.2-4.5h-27.502l5.852 11.5z" fill="#ea4335"/><path d="m43.65 25 13.75-23.8c-1.35-.8-2.9-1.2-4.5-1.2h-18.5c-1.6 0-3.15.45-4.5 1.2z" fill="#00832d"/><path d="m59.8 53h-32.3l-13.75 23.8c1.35.8 2.9 1.2 4.5 1.2h50.8c1.6 0 3.15-.45 4.5-1.2z" fill="#2684fc"/><path d="m73.4 26.5-12.7-22c-.8-1.4-1.95-2.5-3.3-3.3l-13.75 23.8 16.15 28h27.45c0-1.55-.4-3.1-1.2-4.5z" fill="#ffba00"/></svg></div><div><div class="guide-card-title">Club documents (Google Drive)</div><div class="guide-card-desc">How to upload, open and download Word and Excel documents</div></div></div>
-            <div class="guide-card" onclick="openGuide('email-members')"><div class="guide-card-icon">✉️</div><div><div class="guide-card-title">Emailing members</div><div class="guide-card-desc">How to send emails to all or selected members</div></div></div>
+            <div class="guide-card" onclick="openGuide('email-members\')"><div class="guide-card-icon">✉️</div><div><div class="guide-card-title">Emailing members</div><div class="guide-card-desc">How to send emails to all or selected members</div></div></div>
             <div class="guide-card" onclick="openGuide('backup')"><div class="guide-card-icon">💾</div><div><div class="guide-card-title">Backing up your data</div><div class="guide-card-desc">When and how to create a backup of all club financial data</div></div></div>
             <div class="guide-card" onclick="openGuide('dashboard')"><div class="guide-card-icon">📊</div><div><div class="guide-card-title">Reading the dashboard</div><div class="guide-card-desc">Understanding what all the numbers and sections mean</div></div></div>
             <div class="guide-card" onclick="openGuide('printing')"><div class="guide-card-icon">🖨️</div><div><div class="guide-card-title">Printing reports</div><div class="guide-card-desc">How to print financial reports and the events calendar</div></div></div>
@@ -1909,6 +1911,109 @@
       </div>
 
       <div id="allevents-list"></div>
+    </div>
+
+    <!-- ── REPORTS VIEW ── -->
+    <div id="reports-view" style="display:none;">
+      <button class="back-btn" onclick="navTo('home')">← Back to Dashboard</button>
+      <div class="page-header">
+        <div>
+          <div class="page-title">Reports</div>
+          <div class="page-sub">Generate and print financial reports for the club</div>
+        </div>
+      </div>
+
+      <!-- Report type cards -->
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:1.5rem;">
+
+        <div class="acct-card" onclick="selectReport('monthly')" id="rpt-card-monthly" style="cursor:pointer;">
+          <div class="acct-top"><span class="acct-name">📅 Monthly Report</span></div>
+          <div style="font-size:13px;color:var(--text-muted);line-height:1.6;">Income, expenses and transactions for a single month. Perfect for regular committee meetings.</div>
+        </div>
+
+        <div class="acct-card" onclick="selectReport('annual')" id="rpt-card-annual" style="cursor:pointer;">
+          <div class="acct-top"><span class="acct-name">📆 Annual Report</span></div>
+          <div style="font-size:13px;color:var(--text-muted);line-height:1.6;">Full year summary across all accounts. Ideal for the AGM and annual audit.</div>
+        </div>
+
+        <div class="acct-card" onclick="selectReport('account')" id="rpt-card-account" style="cursor:pointer;">
+          <div class="acct-top"><span class="acct-name">🏦 Account Statement</span></div>
+          <div style="font-size:13px;color:var(--text-muted);line-height:1.6;">Full transaction history for a single account. Good for reconciliation and auditing.</div>
+        </div>
+
+        <div class="acct-card" onclick="selectReport('members')" id="rpt-card-members" style="cursor:pointer;">
+          <div class="acct-top"><span class="acct-name">👥 Members Report</span></div>
+          <div style="font-size:13px;color:var(--text-muted);line-height:1.6;">Full member list with contact details and fee payment status.</div>
+        </div>
+
+        <div class="acct-card" onclick="selectReport('outstanding')" id="rpt-card-outstanding" style="cursor:pointer;">
+          <div class="acct-top"><span class="acct-name">⚠️ Outstanding Fees</span></div>
+          <div style="font-size:13px;color:var(--text-muted);line-height:1.6;">List of members who have not yet paid their membership fees.</div>
+        </div>
+
+        <div class="acct-card" onclick="selectReport('investments')" id="rpt-card-investments" style="cursor:pointer;">
+          <div class="acct-top"><span class="acct-name">📈 Investment Summary</span></div>
+          <div style="font-size:13px;color:var(--text-muted);line-height:1.6;">Overview of all investment accounts with balances and maturity dates.</div>
+        </div>
+
+      </div>
+
+      <!-- Report options panel -->
+      <div id="report-options" style="display:none;background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px 24px;margin-bottom:1rem;">
+        <div style="font-size:15px;font-weight:600;color:var(--navy);margin-bottom:1rem;" id="report-options-title">Report Options</div>
+
+        <div style="display:flex;gap:14px;flex-wrap:wrap;align-items:flex-end;">
+
+          <div id="rpt-month-wrap" class="form-group" style="margin:0;min-width:160px;">
+            <label style="font-size:12px;">Month</label>
+            <select id="rpt-month" style="padding:9px 12px;border:1px solid var(--border);border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:14px;background:white;">
+              <option value="0">January</option><option value="1">February</option>
+              <option value="2">March</option><option value="3">April</option>
+              <option value="4">May</option><option value="5" selected>June</option>
+              <option value="6">July</option><option value="7">August</option>
+              <option value="8">September</option><option value="9">October</option>
+              <option value="10">November</option><option value="11">December</option>
+            </select>
+          </div>
+
+          <div id="rpt-year-wrap" class="form-group" style="margin:0;min-width:120px;">
+            <label style="font-size:12px;">Year</label>
+            <select id="rpt-year" style="padding:9px 12px;border:1px solid var(--border);border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:14px;background:white;" id="rpt-year">
+              <option value="2025">2025</option>
+              <option value="2026" selected>2026</option>
+              <option value="2027">2027</option>
+            </select>
+          </div>
+
+          <div id="rpt-account-wrap" class="form-group" style="display:none;margin:0;min-width:180px;">
+            <label style="font-size:12px;">Account</label>
+            <select id="rpt-account" style="padding:9px 12px;border:1px solid var(--border);border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:14px;background:white;">
+              <option value="tipshop">Tip Shop</option>
+              <option value="activities">Activities</option>
+              <option value="convention">Convention</option>
+              <option value="admin">Administration</option>
+            </select>
+          </div>
+
+          <div id="rpt-include-wrap" class="form-group" style="margin:0;">
+            <label style="font-size:12px;">Include transactions</label>
+            <select id="rpt-include" style="padding:9px 12px;border:1px solid var(--border);border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:14px;background:white;">
+              <option value="all">All transactions</option>
+              <option value="income">Income only</option>
+              <option value="expense">Expenses only</option>
+            </select>
+          </div>
+
+          <button class="btn btn-gold" onclick="generateReport()" style="padding:10px 24px;white-space:nowrap;">
+            🖨️ Generate &amp; Print Report
+          </button>
+
+        </div>
+      </div>
+
+      <!-- Preview strip -->
+      <div id="report-preview-strip" style="display:none;background:var(--navy-light);border-radius:var(--radius);padding:12px 16px;font-size:13px;color:var(--navy);" ></div>
+
     </div>
 
     <!-- ── ALL TRANSACTIONS VIEW ── -->
@@ -3247,7 +3352,7 @@ function renderImportPreview() {
     var dStr = d.toLocaleDateString('en-AU', {day:'2-digit', month:'short', year:'numeric'});
     var amtClass = row.skip ? 'imp-skip' : (row.type === 'income' ? 'imp-inc' : 'imp-exp');
     var amtStr = (row.type === 'income' ? '+' : '-') + '$' + row.amount.toFixed(2);
-    var sel = '<select onchange="updateImportRow(' + i + ',\'account\',this.value)">' +
+    var sel = '<select onchange="updateImportRow(\' + i + \',\'account\',this.value)">' +
       ['tipshop','activities','convention','admin'].map(function(a) {
         var labels = {tipshop:'Tip Shop',activities:'Activities',convention:'Convention',admin:'Administration'};
         return '<option value="' + a + '"' + (row.account === a ? ' selected' : '') + '>' + labels[a] + '</option>';
@@ -3489,6 +3594,248 @@ function generateMeetingReport() {
 }
 
 function openMeetingReport() { generateMeetingReport(); }
+
+
+// ── REPORTS ───────────────────────────────────────────────────────────────────
+var currentReportType = null;
+
+function selectReport(type) {
+  currentReportType = type;
+  // Highlight selected card
+  document.querySelectorAll('[id^="rpt-card-"]').forEach(function(c) {
+    c.style.borderColor = '';
+    c.style.boxShadow = '';
+  });
+  var card = document.getElementById('rpt-card-' + type);
+  if (card) {
+    card.style.borderColor = 'var(--gold)';
+    card.style.boxShadow = '0 0 0 2px var(--gold-light)';
+  }
+
+  var optPanel  = document.getElementById('report-options');
+  var monthWrap = document.getElementById('rpt-month-wrap');
+  var yearWrap  = document.getElementById('rpt-year-wrap');
+  var acctWrap  = document.getElementById('rpt-account-wrap');
+  var inclWrap  = document.getElementById('rpt-include-wrap');
+  var titleEl   = document.getElementById('report-options-title');
+
+  optPanel.style.display = 'block';
+  monthWrap.style.display = 'block';
+  yearWrap.style.display  = 'block';
+  acctWrap.style.display  = 'none';
+  inclWrap.style.display  = 'block';
+
+  var titles = {
+    monthly:     '📅 Monthly Report — Options',
+    annual:      '📆 Annual Report — Options',
+    account:     '🏦 Account Statement — Options',
+    members:     '👥 Members Report — Options',
+    outstanding: '⚠️ Outstanding Fees Report — Options',
+    investments: '📈 Investment Summary — Options',
+  };
+  titleEl.textContent = titles[type] || 'Report Options';
+
+  if (type === 'annual') {
+    monthWrap.style.display = 'none';
+  }
+  if (type === 'account') {
+    acctWrap.style.display = 'block';
+  }
+  if (type === 'members' || type === 'outstanding' || type === 'investments') {
+    monthWrap.style.display = 'none';
+    inclWrap.style.display  = 'none';
+  }
+
+  // Preview strip
+  updateReportPreview();
+}
+
+function updateReportPreview() {
+  var strip = document.getElementById('report-preview-strip');
+  if (!currentReportType) return;
+  var month  = document.getElementById('rpt-month');
+  var year   = document.getElementById('rpt-year');
+  var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  var acctLabel = { tipshop:'Tip Shop', activities:'Activities', convention:'Convention', admin:'Administration' };
+  var msgs = {
+    monthly:     'Will print: Monthly financial report for ' + (month ? months[month.value] : '') + ' ' + (year ? year.value : ''),
+    annual:      'Will print: Full year financial report for ' + (year ? year.value : ''),
+    account:     'Will print: Transaction statement for ' + acctLabel[document.getElementById('rpt-account').value] + (month ? ' — ' + months[month.value] : ''),
+    members:     'Will print: Complete members directory with contact details and fee status',
+    outstanding: 'Will print: List of members with outstanding membership fees',
+    investments: 'Will print: Investment accounts summary with balances and maturity dates',
+  };
+  strip.style.display = 'block';
+  strip.textContent = '📄 ' + (msgs[currentReportType] || '');
+}
+
+function generateReport() {
+  if (!currentReportType) { showToast('Please select a report type first'); return; }
+  var monthVal  = document.getElementById('rpt-month') ? parseInt(document.getElementById('rpt-month').value) : null;
+  var yearVal   = document.getElementById('rpt-year')  ? parseInt(document.getElementById('rpt-year').value)  : new Date().getFullYear();
+  var acctVal   = document.getElementById('rpt-account').value;
+  var inclVal   = document.getElementById('rpt-include').value;
+  var months    = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  var acctLabel = { tipshop:'Tip Shop', activities:'Activities', convention:'Convention', admin:'Administration' };
+
+  var html = '';
+
+  var CSS = '<style>' +
+    '@page{size:A4;margin:15mm;}' +
+    '*{box-sizing:border-box;margin:0;padding:0;}' +
+    'body{font-family:Arial,Helvetica,sans-serif;color:#1A2744;font-size:13px;}' +
+    '.hdr{background:#1A2744;color:white;padding:18px 24px;border-radius:8px;margin-bottom:18px;display:flex;justify-content:space-between;align-items:flex-end;}' +
+    '.hdr h1{font-size:18px;margin-bottom:3px;}' +
+    '.hdr p{font-size:11px;opacity:.7;}' +
+    '.hdr .date{font-size:11px;opacity:.7;text-align:right;}' +
+    '.sec{font-size:11px;font-weight:700;color:#6B7A99;text-transform:uppercase;letter-spacing:.06em;margin:16px 0 8px;}' +
+    '.boxes{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px;}' +
+    '.box{border:1px solid #DDE2EE;border-radius:6px;padding:10px 14px;}' +
+    '.box .lbl{font-size:10px;color:#6B7A99;text-transform:uppercase;letter-spacing:.05em;margin-bottom:3px;}' +
+    '.box .val{font-size:19px;font-weight:700;}' +
+    'table{width:100%;border-collapse:collapse;border:1px solid #DDE2EE;margin-bottom:14px;}' +
+    'thead{background:#F7F8FC;}' +
+    'th{padding:8px 12px;text-align:left;font-size:10px;font-weight:700;color:#6B7A99;text-transform:uppercase;letter-spacing:.04em;border-bottom:1px solid #DDE2EE;}' +
+    'td{padding:8px 12px;border-bottom:1px solid #EEF1F8;font-size:12px;}' +
+    'tr:last-child td{border-bottom:none;}' +
+    '.tot td{background:#1A2744;color:white;font-weight:700;}' +
+    '.inc{color:#1A7A4A;font-weight:600;}' +
+    '.exp{color:#C0392B;font-weight:600;}' +
+    '.ftr{margin-top:16px;padding-top:10px;border-top:1px solid #DDE2EE;display:flex;justify-content:space-between;font-size:10px;color:#6B7A99;}' +
+    '</style>';
+
+  var today = new Date();
+  var printedOn = today.toLocaleDateString('en-AU',{day:'2-digit',month:'long',year:'numeric'});
+
+  if (currentReportType === 'monthly') {
+    var title = months[monthVal] + ' ' + yearVal + ' — Monthly Financial Report';
+    var tx = transactions.filter(function(t) {
+      var d = new Date(t.date + 'T00:00:00');
+      return d.getMonth() === monthVal && d.getFullYear() === yearVal &&
+             (inclVal === 'all' || t.type === inclVal);
+    }).sort(function(a,b){ return new Date(a.date) - new Date(b.date); });
+
+    var grandInc = 0, grandExp = 0;
+    var acctRows = '';
+    ['tipshop','activities','convention','admin'].forEach(function(a) {
+      var atx = tx.filter(function(t){ return t.account === a; });
+      var inc = atx.filter(function(t){ return t.type==='income'; }).reduce(function(s,t){ return s+Number(t.amount); },0);
+      var exp = atx.filter(function(t){ return t.type==='expense'; }).reduce(function(s,t){ return s+Number(t.amount); },0);
+      grandInc += inc; grandExp += exp;
+      acctRows += '<tr><td>' + acctLabel[a] + '</td><td class="inc">$' + inc.toLocaleString('en-AU',{minimumFractionDigits:2}) + '</td><td class="exp">$' + exp.toLocaleString('en-AU',{minimumFractionDigits:2}) + '</td><td style="font-weight:700;color:' + (inc-exp>=0?'#1A7A4A':'#C0392B') + ';">$' + (inc-exp).toLocaleString('en-AU',{minimumFractionDigits:2}) + '</td></tr>';
+    });
+    var txRows = tx.map(function(t) {
+      var d = new Date(t.date+'T00:00:00');
+      return '<tr><td>' + d.toLocaleDateString('en-AU',{day:'2-digit',month:'short'}) + '</td><td>' + acctLabel[t.account] + '</td><td>' + (t.desc||'') + '</td><td>' + (t.category||'') + '</td><td style="text-align:right;" class="' + (t.type==='income'?'inc':'exp') + '">' + (t.type==='income'?'+':'-') + '$' + Number(t.amount).toLocaleString('en-AU',{minimumFractionDigits:2}) + '</td></tr>';
+    }).join('');
+    var net = grandInc - grandExp;
+    html = '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>' + title + '</title>' + CSS + '</head><body>' +
+      '<div class="hdr"><div><h1>Port Sorell Lions Club</h1><p>Treasurer\'s Report — ' + title + '</p></div><div class="date">Prepared ' + printedOn + '</div></div>' +
+      '<div class="boxes"><div class="box"><div class="lbl">Total Income</div><div class="val" style="color:#1A7A4A;">$' + grandInc.toLocaleString('en-AU',{minimumFractionDigits:2}) + '</div></div><div class="box"><div class="lbl">Total Expenses</div><div class="val" style="color:#C0392B;">$' + grandExp.toLocaleString('en-AU',{minimumFractionDigits:2}) + '</div></div><div class="box"><div class="lbl">Net Surplus</div><div class="val" style="color:' + (net>=0?'#1A7A4A':'#C0392B') + ';">$' + net.toLocaleString('en-AU',{minimumFractionDigits:2}) + '</div></div></div>' +
+      '<div class="sec">Account Summary</div>' +
+      '<table><thead><tr><th>Account</th><th>Income</th><th>Expenses</th><th>Net</th></tr></thead><tbody>' + acctRows + '<tr class="tot"><td>TOTAL</td><td>$' + grandInc.toLocaleString('en-AU',{minimumFractionDigits:2}) + '</td><td>$' + grandExp.toLocaleString('en-AU',{minimumFractionDigits:2}) + '</td><td>$' + net.toLocaleString('en-AU',{minimumFractionDigits:2}) + '</td></tr></tbody></table>' +
+      '<div class="sec">Transaction Detail</div>' +
+      '<table><thead><tr><th>Date</th><th>Account</th><th>Description</th><th>Category</th><th style="text-align:right;">Amount</th></tr></thead><tbody>' + (txRows || '<tr><td colspan="5" style="text-align:center;color:#6B7A99;">No transactions for this period</td></tr>') + '</tbody></table>' +
+      '<div class="ftr"><span>Port Sorell Lions Club Inc. — Confidential</span><span>Lions Clubs International · District 201T5</span></div>' +
+      '</body></html>';
+
+  } else if (currentReportType === 'annual') {
+    var title = yearVal + ' Annual Financial Report';
+    var grandInc = 0, grandExp = 0;
+    var monthRows = '';
+    for (var m = 0; m < 12; m++) {
+      var mtx = transactions.filter(function(t) {
+        var d = new Date(t.date+'T00:00:00');
+        return d.getMonth() === m && d.getFullYear() === yearVal;
+      });
+      var inc = mtx.filter(function(t){ return t.type==='income'; }).reduce(function(s,t){ return s+Number(t.amount); },0);
+      var exp = mtx.filter(function(t){ return t.type==='expense'; }).reduce(function(s,t){ return s+Number(t.amount); },0);
+      grandInc += inc; grandExp += exp;
+      if (inc > 0 || exp > 0) {
+        monthRows += '<tr><td>' + months[m] + '</td><td class="inc">$' + inc.toLocaleString('en-AU',{minimumFractionDigits:2}) + '</td><td class="exp">$' + exp.toLocaleString('en-AU',{minimumFractionDigits:2}) + '</td><td style="font-weight:700;color:' + (inc-exp>=0?'#1A7A4A':'#C0392B') + ';">$' + (inc-exp).toLocaleString('en-AU',{minimumFractionDigits:2}) + '</td></tr>';
+      }
+    }
+    var acctRows = '';
+    ['tipshop','activities','convention','admin'].forEach(function(a) {
+      var atx = transactions.filter(function(t){ var d=new Date(t.date+'T00:00:00'); return t.account===a && d.getFullYear()===yearVal; });
+      var inc = atx.filter(function(t){ return t.type==='income'; }).reduce(function(s,t){ return s+Number(t.amount); },0);
+      var exp = atx.filter(function(t){ return t.type==='expense'; }).reduce(function(s,t){ return s+Number(t.amount); },0);
+      acctRows += '<tr><td>' + acctLabel[a] + '</td><td class="inc">$' + inc.toLocaleString('en-AU',{minimumFractionDigits:2}) + '</td><td class="exp">$' + exp.toLocaleString('en-AU',{minimumFractionDigits:2}) + '</td><td style="font-weight:700;color:' + (inc-exp>=0?'#1A7A4A':'#C0392B') + ';">$' + (inc-exp).toLocaleString('en-AU',{minimumFractionDigits:2}) + '</td></tr>';
+    });
+    var net = grandInc - grandExp;
+    html = '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>' + title + '</title>' + CSS + '</head><body>' +
+      '<div class="hdr"><div><h1>Port Sorell Lions Club</h1><p>' + title + '</p></div><div class="date">Prepared ' + printedOn + '</div></div>' +
+      '<div class="boxes"><div class="box"><div class="lbl">Total Income ' + yearVal + '</div><div class="val" style="color:#1A7A4A;">$' + grandInc.toLocaleString('en-AU',{minimumFractionDigits:2}) + '</div></div><div class="box"><div class="lbl">Total Expenses ' + yearVal + '</div><div class="val" style="color:#C0392B;">$' + grandExp.toLocaleString('en-AU',{minimumFractionDigits:2}) + '</div></div><div class="box"><div class="lbl">Net Surplus ' + yearVal + '</div><div class="val" style="color:' + (net>=0?'#1A7A4A':'#C0392B') + ';">$' + net.toLocaleString('en-AU',{minimumFractionDigits:2}) + '</div></div></div>' +
+      '<div class="sec">Monthly Breakdown</div><table><thead><tr><th>Month</th><th>Income</th><th>Expenses</th><th>Net</th></tr></thead><tbody>' + (monthRows || '<tr><td colspan="4" style="text-align:center;color:#6B7A99;">No transactions recorded for ' + yearVal + '</td></tr>') + '<tr class="tot"><td>TOTAL ' + yearVal + '</td><td>$' + grandInc.toLocaleString('en-AU',{minimumFractionDigits:2}) + '</td><td>$' + grandExp.toLocaleString('en-AU',{minimumFractionDigits:2}) + '</td><td>$' + net.toLocaleString('en-AU',{minimumFractionDigits:2}) + '</td></tr></tbody></table>' +
+      '<div class="sec">By Account</div><table><thead><tr><th>Account</th><th>Income</th><th>Expenses</th><th>Net</th></tr></thead><tbody>' + acctRows + '</tbody></table>' +
+      '<div class="ftr"><span>Port Sorell Lions Club Inc. — Confidential</span><span>Lions Clubs International · District 201T5</span></div></body></html>';
+
+  } else if (currentReportType === 'account') {
+    var title = acctLabel[acctVal] + ' Account Statement — ' + months[monthVal] + ' ' + yearVal;
+    var tx = transactions.filter(function(t) {
+      var d = new Date(t.date+'T00:00:00');
+      return t.account === acctVal && d.getMonth() === monthVal && d.getFullYear() === yearVal &&
+             (inclVal === 'all' || t.type === inclVal);
+    }).sort(function(a,b){ return new Date(a.date)-new Date(b.date); });
+    var inc = tx.filter(function(t){ return t.type==='income'; }).reduce(function(s,t){ return s+Number(t.amount); },0);
+    var exp = tx.filter(function(t){ return t.type==='expense'; }).reduce(function(s,t){ return s+Number(t.amount); },0);
+    var txRows = tx.map(function(t,i) {
+      var d = new Date(t.date+'T00:00:00');
+      return '<tr><td>' + (i+1) + '</td><td>' + d.toLocaleDateString('en-AU',{day:'2-digit',month:'short',year:'numeric'}) + '</td><td>' + (t.desc||'') + '</td><td>' + (t.category||'') + '</td><td style="text-align:right;" class="' + (t.type==='income'?'inc':'exp') + '">' + (t.type==='income'?'+':'-') + '$' + Number(t.amount).toLocaleString('en-AU',{minimumFractionDigits:2}) + '</td></tr>';
+    }).join('');
+    html = '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>' + title + '</title>' + CSS + '</head><body>' +
+      '<div class="hdr"><div><h1>Port Sorell Lions Club</h1><p>' + title + '</p></div><div class="date">Prepared ' + printedOn + '</div></div>' +
+      '<div class="boxes"><div class="box"><div class="lbl">Total Income</div><div class="val" style="color:#1A7A4A;">$' + inc.toLocaleString('en-AU',{minimumFractionDigits:2}) + '</div></div><div class="box"><div class="lbl">Total Expenses</div><div class="val" style="color:#C0392B;">$' + exp.toLocaleString('en-AU',{minimumFractionDigits:2}) + '</div></div><div class="box"><div class="lbl">Net Balance</div><div class="val" style="color:' + (inc-exp>=0?'#1A7A4A':'#C0392B') + ';">$' + (inc-exp).toLocaleString('en-AU',{minimumFractionDigits:2}) + '</div></div></div>' +
+      '<div class="sec">Transactions</div><table><thead><tr><th>#</th><th>Date</th><th>Description</th><th>Category</th><th style="text-align:right;">Amount</th></tr></thead><tbody>' + (txRows||'<tr><td colspan="5" style="text-align:center;color:#6B7A99;">No transactions for this period</td></tr>') + '</tbody></table>' +
+      '<div class="ftr"><span>Port Sorell Lions Club Inc. — Confidential</span><span>Lions Clubs International · District 201T5</span></div></body></html>';
+
+  } else if (currentReportType === 'members') {
+    var sorted = members.slice().sort(function(a,b){ return a.last.localeCompare(b.last); });
+    var rows = sorted.map(function(m,i) {
+      return '<tr><td>' + (i+1) + '</td><td>' + m.last + ', ' + m.first + '</td><td>' + (m.phone||'—') + '</td><td>' + (m.email||'—') + '</td><td>' + (m.address||'—') + '</td><td style="font-weight:600;color:' + (m.paid?'#1A7A4A':'#C0392B') + ';">' + (m.paid?'Paid':'Owing') + '</td></tr>';
+    }).join('');
+    html = '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Members Report</title>' + CSS + '</head><body>' +
+      '<div class="hdr"><div><h1>Port Sorell Lions Club</h1><p>Members Directory — ' + printedOn + '</p></div><div class="date">' + sorted.length + ' members</div></div>' +
+      '<table><thead><tr><th>#</th><th>Name</th><th>Phone</th><th>Email</th><th>Address</th><th>Fee Status</th></tr></thead><tbody>' + (rows||'<tr><td colspan="6" style="text-align:center;color:#6B7A99;">No members recorded</td></tr>') + '</tbody></table>' +
+      '<div class="ftr"><span>Port Sorell Lions Club Inc. — Confidential</span><span>Lions Clubs International · District 201T5</span></div></body></html>';
+
+  } else if (currentReportType === 'outstanding') {
+    var unpaid = members.filter(function(m){ return !m.paid; }).sort(function(a,b){ return a.last.localeCompare(b.last); });
+    var rows = unpaid.map(function(m,i) {
+      return '<tr><td>' + (i+1) + '</td><td>' + m.last + ', ' + m.first + '</td><td>' + (m.phone||'—') + '</td><td>' + (m.email||'—') + '</td></tr>';
+    }).join('');
+    html = '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Outstanding Fees</title>' + CSS + '</head><body>' +
+      '<div class="hdr"><div><h1>Port Sorell Lions Club</h1><p>Outstanding Membership Fees — ' + printedOn + '</p></div><div class="date">' + unpaid.length + ' members outstanding</div></div>' +
+      (unpaid.length > 0 ? '<table><thead><tr><th>#</th><th>Name</th><th>Phone</th><th>Email</th></tr></thead><tbody>' + rows + '</tbody></table>' : '<p style="text-align:center;padding:2rem;color:#1A7A4A;font-size:16px;font-weight:700;">All membership fees have been paid!</p>') +
+      '<div class="ftr"><span>Port Sorell Lions Club Inc. — Confidential</span><span>Lions Clubs International · District 201T5</span></div></body></html>';
+
+  } else if (currentReportType === 'investments') {
+    html = '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Investment Summary</title>' + CSS + '</head><body>' +
+      '<div class="hdr"><div><h1>Port Sorell Lions Club</h1><p>Investment Accounts Summary — ' + printedOn + '</p></div></div>' +
+      '<table><thead><tr><th>Bank</th><th>Type</th><th>Signatories</th><th>Balance</th><th>Maturity Date</th></tr></thead><tbody>' +
+      '<tr><td>Commonwealth Bank</td><td>Term Deposit</td><td>TBA</td><td class="inc">TBA</td><td>TBA</td></tr>' +
+      '<tr><td>Bendigo Bank</td><td>Term Deposit</td><td>TBA</td><td class="inc">TBA</td><td>TBA</td></tr>' +
+      '<tr><td>MLC Master Card</td><td>Investment Account</td><td>TBA</td><td class="inc">TBA</td><td>Leave alone</td></tr>' +
+      '</tbody></table>' +
+      '<div class="ftr"><span>Port Sorell Lions Club Inc. — Confidential</span><span>Lions Clubs International · District 201T5</span></div></body></html>';
+  }
+
+  if (!html) { showToast('Could not generate report'); return; }
+
+  // Print via iframe
+  var old = document.getElementById('report-print-frame');
+  if (old) old.parentNode.removeChild(old);
+  var iframe = document.createElement('iframe');
+  iframe.id = 'report-print-frame';
+  iframe.style.cssText = 'position:fixed;top:-9999px;left:-9999px;width:1px;height:1px;border:none;';
+  document.body.appendChild(iframe);
+  var doc = iframe.contentWindow.document;
+  doc.open(); doc.write(html); doc.close();
+  setTimeout(function() {
+    iframe.contentWindow.focus();
+    iframe.contentWindow.print();
+  }, 500);
+}
 
 // ── HOW TO GUIDES ─────────────────────────────────────────────────────────────
 function toggleGuides() {
@@ -3846,7 +4193,7 @@ function navTo(target, pushState) {
   if (pushState !== false) {
     history.pushState({ target: target }, '', '#' + target);
   }
-  ['dashboard-view','detail-view','members-view','investments-view','alltx-view','allevents-view'].forEach(id => {
+  ['dashboard-view','detail-view','members-view','investments-view','alltx-view','allevents-view','reports-view'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.style.display = 'none';
   });
@@ -3860,6 +4207,12 @@ function navTo(target, pushState) {
   } else if (target === 'investments') {
     document.getElementById('investments-view').style.display = 'block';
     document.getElementById('nav-investments').classList.add('active');
+  } else if (target === 'reports') {
+    document.getElementById('reports-view').style.display = 'block';
+    document.getElementById('nav-reports').classList.add('active');
+    document.getElementById('report-options').style.display = 'none';
+    document.getElementById('report-preview-strip').style.display = 'none';
+    document.querySelectorAll('[id^="rpt-card-"]').forEach(function(c){ c.style.borderColor=''; });
   } else if (target === 'alltx') {
     document.getElementById('alltx-view').style.display = 'block';
     document.getElementById('nav-alltx').classList.add('active');
@@ -4106,8 +4459,8 @@ async function saveMembers() {
 }
 
 function showMembers() {
-  // already has pushState({ target: 'members' }, '', '#members');
-  ['dashboard-view','detail-view','investments-view','alltx-view','allevents-view'].forEach(id => {
+  // already has pushState({ target: 'members' }, '', '#members\');
+  ['dashboard-view','detail-view','investments-view','alltx-view','allevents-view','reports-view'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.style.display = 'none';
   });
