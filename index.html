@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Lions Club Treasurer — Port Sorell</title>
 <script src="https://accounts.google.com/gsi/client" async defer></script>
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
   const _SB_URL  = 'https://lzacsffgosgqbndutttd.supabase.co';
@@ -1589,6 +1590,7 @@
         <button class="btn btn-gold" onclick="openTxModal(null)">+ Add Transaction</button>
         <button class="btn btn-secondary" onclick="openImportModal()">📥 Import from Bank</button>
         <button class="btn btn-secondary" onclick="exportBackup()">💾 Backup Data</button>
+        <button class="btn btn-secondary" onclick="downloadAllReceipts()">🧾 Download Receipts</button>
         <label class="btn btn-secondary" style="cursor:pointer;">📂 Restore Backup <input type="file" accept=".json" style="display:none" onchange="importBackup(event)"></label>
       </div>
     </div>
@@ -3081,6 +3083,73 @@ async function confirmImport() {
   renderDashboard();
   renderRecentTx();
   showToast(imported + ' transactions imported' + (failed > 0 ? ' (' + failed + ' failed)' : '') + ' ✓');
+}
+
+
+// ── RECEIPT DOWNLOAD ─────────────────────────────────────────────────────────
+async function downloadAllReceipts() {
+  const withReceipts = transactions.filter(t => t.receipt);
+  if (withReceipts.length === 0) {
+    showToast('No receipts have been uploaded yet');
+    return;
+  }
+
+  showToast('Preparing ' + withReceipts.length + ' receipts…');
+
+  const zip = new JSZip();
+  const folder = zip.folder('Port Sorell Lions Club — Receipts');
+
+  const acctLabel = { tipshop:'Tip Shop', activities:'Activities', convention:'Convention', admin:'Administration' };
+
+  withReceipts.forEach(function(t, i) {
+    // Get file extension from base64 data URI
+    var ext = 'jpg';
+    if (t.receipt && t.receipt.indexOf('image/png') !== -1) ext = 'png';
+    else if (t.receipt && t.receipt.indexOf('image/gif') !== -1) ext = 'gif';
+    else if (t.receipt && t.receipt.indexOf('image/webp') !== -1) ext = 'webp';
+
+    // Build filename: date_account_description.ext
+    var safeDesc = (t.desc || 'receipt').replace(/[^a-zA-Z0-9 ]/g, '').trim().substring(0, 40);
+    var filename = t.date + '_' + (acctLabel[t.account] || t.account) + '_' + safeDesc + '.' + ext;
+
+    // Strip the data URI prefix to get raw base64
+    var base64 = t.receipt.split(',')[1];
+    if (base64) folder.file(filename, base64, { base64: true });
+  });
+
+  // Add a summary CSV
+  var csvRows = [['Date','Account','Type','Category','Description','Amount','Receipt filename']];
+  withReceipts.forEach(function(t) {
+    var ext = 'jpg';
+    if (t.receipt && t.receipt.indexOf('image/png') !== -1) ext = 'png';
+    var safeDesc = (t.desc || 'receipt').replace(/[^a-zA-Z0-9 ]/g, '').trim().substring(0, 40);
+    var filename = t.date + '_' + (acctLabel[t.account] || t.account) + '_' + safeDesc + '.' + ext;
+    csvRows.push([
+      t.date,
+      acctLabel[t.account] || t.account,
+      t.type === 'income' ? 'Income' : 'Expense',
+      t.category || '',
+      t.desc || '',
+      (t.type === 'income' ? '' : '-') + (t.amount || 0).toFixed(2),
+      filename,
+    ]);
+  });
+  var csv = csvRows.map(function(r) {
+    return r.map(function(v) { return '"' + String(v).replace(/"/g, '""') + '"'; }).join(',');
+  }).join('\n');
+  folder.file('receipts-summary.csv', csv);
+
+  try {
+    var blob = await zip.generateAsync({ type: 'blob' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'Port-Sorell-Lions-Receipts-' + new Date().toISOString().split('T')[0] + '.zip';
+    a.click();
+    showToast(withReceipts.length + ' receipts downloaded ✓');
+  } catch(e) {
+    console.error('ZIP error:', e);
+    showToast('Could not create ZIP file');
+  }
 }
 
 // ── RECENT TRANSACTIONS FEED ──────────────────────────────────────────────────
