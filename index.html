@@ -429,13 +429,16 @@
   .inv-rows { display: flex; flex-direction: column; gap: 0; }
 
   .inv-row {
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 1fr 120px 120px;
     align-items: center;
     padding: 10px 0;
     border-bottom: 1px solid var(--border);
     font-size: 14px;
+    gap: 8px;
   }
+  .inv-due { text-align: center; }
+  .inv-amt { text-align: right; }
 
   .inv-row:last-child { border-bottom: none; }
 
@@ -1514,18 +1517,18 @@
             <div class="inv-rows">
               <div class="inv-row">
                 <span class="inv-bank">Commonwealth Bank (term deposit)</span>
-                <span class="inv-due">Due 27 May 2026</span>
-                <span class="inv-amt">$198,400.00</span>
+                <span class="inv-due">TBA</span>
+                <span class="inv-amt">TBA</span>
               </div>
               <div class="inv-row">
                 <span class="inv-bank">Bendigo Bank (term deposit)</span>
-                <span class="inv-due">Due 23 Jun 2026</span>
-                <span class="inv-amt">$115,000.00</span>
+                <span class="inv-due">TBA</span>
+                <span class="inv-amt">TBA</span>
               </div>
               <div class="inv-row">
                 <span class="inv-bank">MLC Master Card investment</span>
-                <span class="inv-due">Leave Alone</span>
-                <span class="inv-amt">$170,000.00</span>
+                <span class="inv-due">TBA</span>
+                <span class="inv-amt">TBA</span>
               </div>
             </div>
           </div>
@@ -1771,38 +1774,38 @@
           <div class="inv-row">
             <div>
               <div class="inv-bank">Commonwealth Bank</div>
-              <div class="inv-due">Term deposit · Signatories: Grenville, Mary</div>
+              <div class="inv-due">Term deposit · Signatories: TBA</div>
             </div>
             <div style="text-align:right;">
-              <div class="inv-amt">$198,400.00</div>
-              <div class="inv-due">Due 27 May 2026</div>
+              <div class="inv-amt">TBA</div>
+              <div class="inv-due">TBA</div>
             </div>
           </div>
           <div class="inv-row">
             <div>
               <div class="inv-bank">Bendigo Bank</div>
-              <div class="inv-due">Term deposit · Signatories: Mary, Grenville, Matthew</div>
+              <div class="inv-due">Term deposit · Signatories: TBA</div>
             </div>
             <div style="text-align:right;">
-              <div class="inv-amt">$115,000.00</div>
-              <div class="inv-due">Due 23 Jun 2026</div>
+              <div class="inv-amt">TBA</div>
+              <div class="inv-due">TBA</div>
             </div>
           </div>
           <div class="inv-row">
             <div>
               <div class="inv-bank">MLC Master Card</div>
-              <div class="inv-due">Investment account · Leave Alone</div>
+              <div class="inv-due">Investment account · TBA</div>
             </div>
             <div style="text-align:right;">
-              <div class="inv-amt">$170,000.00</div>
-              <div class="inv-due">No maturity date</div>
+              <div class="inv-amt">TBA</div>
+              <div class="inv-due">TBA</div>
             </div>
           </div>
         </div>
       </div>
       <div class="sum-card" style="max-width:280px;">
         <div class="sum-label">Total investments held</div>
-        <div class="sum-val">$483,400.00</div>
+        <div class="sum-val" style="font-size:18px;color:var(--text-muted);">TBA</div>
       </div>
     </div>
 
@@ -2264,7 +2267,7 @@ function renderDashboard() {
     <div class="sum-card"><div class="sum-label">Total income</div><div class="sum-val pos">${fmt(totals.inc)}</div></div>
     <div class="sum-card"><div class="sum-label">Total expenses</div><div class="sum-val neg">${fmt(totals.exp)}</div></div>
     <div class="sum-card"><div class="sum-label">Net surplus</div><div class="sum-val ${totals.net >= 0 ? 'pos' : 'neg'}">${totals.net < 0 ? '-' : ''}${fmt(totals.net)}</div></div>
-    <div class="sum-card"><div class="sum-label">Investments held</div><div class="sum-val">$483,400.00</div></div>
+    <div class="sum-card"><div class="sum-label">Investments held</div><div class="sum-val" style="font-size:18px;color:var(--text-muted);">TBA</div></div>
   `;
 
   renderEvents();
