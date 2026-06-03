@@ -2778,8 +2778,24 @@ async function syncAllEventsToGcal() {
     gcalSignIn(function() { syncAllEventsToGcal(); });
     return;
   }
+
+  // First fetch existing Google Calendar events to avoid duplicates
+  var existingTitles = new Set();
+  try {
+    var listResp = await fetch(
+      'https://www.googleapis.com/calendar/v3/calendars/' + encodeURIComponent('primary') + '/events?maxResults=250&singleEvents=true',
+      { headers: { 'Authorization': 'Bearer ' + gcalToken } }
+    );
+    if (listResp.ok) {
+      var listData = await listResp.json();
+      (listData.items || []).forEach(function(item) {
+        var dateKey = (item.start && (item.start.date || item.start.dateTime) || '').substring(0, 10);
+        existingTitles.add((item.summary || '') + '|' + dateKey);
+      });
+    }
+  } catch(e) { console.error('fetch existing events error:', e); }
+
   var toSync = events.slice();
-  // Add member birthdays with corrected dates
   var thisYear = new Date().getFullYear();
   members.forEach(function(m) {
     if (!m.dob) return;
@@ -2787,15 +2803,29 @@ async function syncAllEventsToGcal() {
     var bdDate = thisYear + '-' + parts[1] + '-' + parts[2];
     toSync.push({ name: m.first+' '+m.last+"'s Birthday", date: bdDate, type:'birthday', notes:'' });
   });
+
   if (toSync.length === 0) { showToast('No events to sync'); return; }
-  showToast('Syncing ' + toSync.length + ' events to Google Calendar…');
-  var done = 0;
+
+  var synced = 0;
+  var skipped = 0;
+  showToast('Checking for existing events…');
+
   for (var i = 0; i < toSync.length; i++) {
     var ev = toSync[i];
+    var key = ev.name + '|' + ev.date;
+    if (existingTitles.has(key)) {
+      skipped++;
+      continue;
+    }
     await gcalCreateEvent(ev.name, ev.date, ev.notes || '', ev.type);
-    done++;
+    synced++;
   }
-  showToast(done + ' events synced to Google Calendar ✓');
+
+  if (synced === 0 && skipped > 0) {
+    showToast('All events already in Google Calendar ✓');
+  } else {
+    showToast(synced + ' events synced' + (skipped > 0 ? ', ' + skipped + ' already existed' : '') + ' ✓');
+  }
 }
 
 // ── CSV IMPORT ────────────────────────────────────────────────────────────────
