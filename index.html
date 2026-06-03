@@ -1264,6 +1264,114 @@
   .acct-pill-convention { background: var(--blue-bg);  color: var(--blue); }
   .acct-pill-admin      { background: var(--coral-bg); color: var(--coral); }
 
+
+  /* ── CSV IMPORT ── */
+  .import-step { display: none; }
+  .import-step.active { display: block; }
+
+  .bank-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 1.2rem;
+  }
+
+  .bank-btn {
+    padding: 12px 8px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+    cursor: pointer;
+    text-align: center;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--navy);
+    transition: all 0.15s;
+  }
+
+  .bank-btn:hover { border-color: var(--gold); background: var(--amber-bg); }
+  .bank-btn.selected { border-color: var(--gold); background: var(--amber-bg); color: var(--gold-dark); }
+  .bank-btn .bank-name { font-size: 12px; color: var(--text-muted); margin-top: 3px; }
+
+  .csv-drop-zone {
+    border: 2px dashed var(--border);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: var(--surface);
+    margin-bottom: 1rem;
+  }
+
+  .csv-drop-zone:hover, .csv-drop-zone.dragover {
+    border-color: var(--gold);
+    background: var(--amber-bg);
+  }
+
+  .csv-drop-zone .drop-icon { font-size: 32px; margin-bottom: 8px; }
+  .csv-drop-zone p { font-size: 14px; color: var(--text-muted); }
+  .csv-drop-zone strong { color: var(--navy); }
+
+  .import-preview {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin-bottom: 1rem;
+  }
+
+  .import-preview-row {
+    display: grid;
+    grid-template-columns: 90px 1fr 90px 120px 110px;
+    padding: 9px 14px;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .import-preview-row:last-child { border-bottom: none; }
+  .import-preview-row.header {
+    background: var(--navy);
+    color: white;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .import-preview-row select {
+    padding: 4px 6px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 12px;
+    font-family: 'DM Sans', sans-serif;
+    background: white;
+  }
+
+  .imp-inc { color: var(--green); font-weight: 600; }
+  .imp-exp { color: var(--red); font-weight: 600; }
+  .imp-skip { color: var(--text-muted); text-decoration: line-through; }
+
+  .import-summary {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .import-summary-item {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 8px 14px;
+    font-size: 13px;
+  }
+
+  .import-summary-item span { font-weight: 600; color: var(--navy); }
+
   /* ── PRINT ── */
   @media print {
     @page { size: A4 landscape; margin: 12mm; }
@@ -1472,6 +1580,7 @@
       </div>
       <div class="action-bar" id="action-bar">
         <button class="btn btn-gold" onclick="openTxModal(null)">+ Add transaction</button>
+        <button class="btn btn-secondary" onclick="openImportModal()">📥 Import from bank</button>
         <button class="btn btn-secondary" onclick="exportBackup()">💾 Backup data</button>
         <label class="btn btn-secondary" style="cursor:pointer;">📂 Restore backup <input type="file" accept=".json" style="display:none" onchange="importBackup(event)"></label>
       </div>
@@ -1933,6 +2042,96 @@
       <button class="btn btn-secondary" onclick="closeEventModal()">Cancel</button>
       <button class="btn btn-gold" onclick="saveEvent()">Save event</button>
     </div>
+  </div>
+</div>
+
+<!-- ══════════════ CSV IMPORT MODAL ══════════════ -->
+<div class="modal-bg" id="import-modal">
+  <div class="modal" style="max-width:620px;">
+    <div class="modal-title">Import bank transactions</div>
+
+    <!-- Step 1: Choose bank -->
+    <div class="import-step active" id="import-step-1">
+      <p style="font-size:14px;color:var(--text-muted);margin-bottom:1rem;">Select your bank so we can read the CSV correctly:</p>
+      <div class="bank-grid">
+        <button class="bank-btn" onclick="selectBank('cba')" id="bank-cba">
+          🏦<div class="bank-name">Commonwealth Bank</div>
+        </button>
+        <button class="bank-btn" onclick="selectBank('bendigo')" id="bank-bendigo">
+          🏦<div class="bank-name">Bendigo Bank</div>
+        </button>
+        <button class="bank-btn" onclick="selectBank('anz')" id="bank-anz">
+          🏦<div class="bank-name">ANZ</div>
+        </button>
+        <button class="bank-btn" onclick="selectBank('westpac')" id="bank-westpac">
+          🏦<div class="bank-name">Westpac</div>
+        </button>
+        <button class="bank-btn" onclick="selectBank('nab')" id="bank-nab">
+          🏦<div class="bank-name">NAB</div>
+        </button>
+        <button class="bank-btn" onclick="selectBank('generic')" id="bank-generic">
+          📄<div class="bank-name">Other / Generic CSV</div>
+        </button>
+      </div>
+
+      <div id="bank-instructions" style="background:var(--navy-light);border-radius:var(--radius);padding:12px 14px;font-size:13px;color:var(--navy);display:none;margin-bottom:1rem;"></div>
+
+      <div class="modal-actions">
+        <button class="btn btn-secondary" onclick="closeImportModal()">Cancel</button>
+        <button class="btn btn-gold" onclick="goImportStep(2)" id="import-next-1" disabled>Next →</button>
+      </div>
+    </div>
+
+    <!-- Step 2: Upload CSV -->
+    <div class="import-step" id="import-step-2">
+      <div class="form-group">
+        <label>Which account is this bank statement for?</label>
+        <select id="import-account">
+          <option value="tipshop">Tip Shop</option>
+          <option value="activities">Activities</option>
+          <option value="convention">Convention</option>
+          <option value="admin">Administration</option>
+        </select>
+      </div>
+
+      <div class="csv-drop-zone" id="csv-drop-zone" onclick="document.getElementById('csv-file-input').click()"
+        ondragover="event.preventDefault();this.classList.add('dragover')"
+        ondragleave="this.classList.remove('dragover')"
+        ondrop="handleCsvDrop(event)">
+        <div class="drop-icon">📂</div>
+        <p><strong>Click to choose your CSV file</strong></p>
+        <p>or drag and drop it here</p>
+        <p style="margin-top:8px;font-size:12px;">Download from your bank's internet banking → Transactions → Export/Download as CSV</p>
+        <input type="file" id="csv-file-input" accept=".csv,.txt" style="display:none" onchange="handleCsvFile(event)">
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn btn-secondary" onclick="goImportStep(1)">← Back</button>
+      </div>
+    </div>
+
+    <!-- Step 3: Review and confirm -->
+    <div class="import-step" id="import-step-3">
+      <div class="import-summary" id="import-summary"></div>
+
+      <p style="font-size:13px;color:var(--text-muted);margin-bottom:10px;">Review transactions below. Change the account or skip any you don't want to import:</p>
+
+      <div class="import-preview" id="import-preview">
+        <div class="import-preview-row header">
+          <span>Date</span>
+          <span>Description</span>
+          <span>Amount</span>
+          <span>Account</span>
+          <span>Action</span>
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn btn-secondary" onclick="goImportStep(2)">← Back</button>
+        <button class="btn btn-gold" onclick="confirmImport()" id="import-confirm-btn">Import transactions</button>
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -2477,6 +2676,257 @@ function exportAllTxCSV() {
   a.download = 'port-sorell-lions-transactions-' + new Date().toISOString().split('T')[0] + '.csv';
   a.click();
   showToast('Transactions exported ✓');
+}
+
+
+// ── CSV IMPORT ────────────────────────────────────────────────────────────────
+let selectedBank = null;
+let parsedImportRows = [];
+
+const BANK_FORMATS = {
+  cba: {
+    name: 'Commonwealth Bank',
+    skipRows: 1,
+    dateCol: 0, descCol: 1, amountCol: 2,
+    dateFormat: 'dd/mm/yyyy',
+    instructions: 'In NetBank: Accounts → View transactions → Export → CSV (All columns). The file will be named something like "export.csv".'
+  },
+  bendigo: {
+    name: 'Bendigo Bank',
+    skipRows: 1,
+    dateCol: 0, descCol: 2, amountCol: 3,
+    dateFormat: 'dd/mm/yyyy',
+    instructions: 'In Bendigo e-banking: Accounts → Transaction history → Export → CSV format.'
+  },
+  anz: {
+    name: 'ANZ',
+    skipRows: 1,
+    dateCol: 0, descCol: 1, amountCol: 2,
+    dateFormat: 'dd/mm/yyyy',
+    instructions: 'In ANZ Internet Banking: Accounts → Transaction list → Export transactions → CSV.'
+  },
+  westpac: {
+    name: 'Westpac',
+    skipRows: 1,
+    dateCol: 0, descCol: 1, amountCol: 2,
+    dateFormat: 'dd/mm/yyyy',
+    instructions: 'In Westpac Online Banking: Accounts → Transaction history → Export → Comma Separated Values (CSV).'
+  },
+  nab: {
+    name: 'NAB',
+    skipRows: 1,
+    dateCol: 0, descCol: 2, amountCol: 1,
+    dateFormat: 'dd/mm/yyyy',
+    instructions: 'In NAB Internet Banking: Accounts → Export transactions → CSV.'
+  },
+  generic: {
+    name: 'Generic CSV',
+    skipRows: 1,
+    dateCol: 0, descCol: 1, amountCol: 2,
+    dateFormat: 'dd/mm/yyyy',
+    instructions: 'Your CSV should have columns: Date, Description, Amount. Positive amounts = income, negative = expense.'
+  }
+};
+
+function openImportModal() {
+  if (currentRole === 'auditor') return;
+  selectedBank = null;
+  parsedImportRows = [];
+  document.querySelectorAll('.bank-btn').forEach(b => b.classList.remove('selected'));
+  document.getElementById('bank-instructions').style.display = 'none';
+  document.getElementById('import-next-1').disabled = true;
+  document.getElementById('csv-drop-zone').querySelector('p').textContent = 'Click to choose your CSV file';
+  goImportStep(1);
+  document.getElementById('import-modal').classList.add('open');
+}
+
+function closeImportModal() {
+  document.getElementById('import-modal').classList.remove('open');
+}
+
+function goImportStep(n) {
+  document.querySelectorAll('.import-step').forEach(s => s.classList.remove('active'));
+  document.getElementById('import-step-' + n).classList.add('active');
+}
+
+function selectBank(bankId) {
+  selectedBank = bankId;
+  document.querySelectorAll('.bank-btn').forEach(b => b.classList.remove('selected'));
+  document.getElementById('bank-' + bankId).classList.add('selected');
+  const fmt = BANK_FORMATS[bankId];
+  const instrEl = document.getElementById('bank-instructions');
+  instrEl.textContent = '💡 ' + fmt.instructions;
+  instrEl.style.display = 'block';
+  document.getElementById('import-next-1').disabled = false;
+}
+
+function handleCsvDrop(e) {
+  e.preventDefault();
+  document.getElementById('csv-drop-zone').classList.remove('dragover');
+  const file = e.dataTransfer.files[0];
+  if (file) processCSVFile(file);
+}
+
+function handleCsvFile(e) {
+  const file = e.target.files[0];
+  if (file) processCSVFile(file);
+}
+
+function processCSVFile(file) {
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const text = e.target.result;
+    parseCSV(text);
+  };
+  reader.readAsText(file);
+  document.getElementById('csv-drop-zone').querySelector('strong').textContent = '✓ ' + file.name;
+}
+
+function parseCSV(text) {
+  const fmt = BANK_FORMATS[selectedBank];
+  const lines = text.trim().split('\n').map(l => l.trim()).filter(l => l.length > 0);
+  const rows = lines.slice(fmt.skipRows);
+  parsedImportRows = [];
+
+  rows.forEach(function(line) {
+    // Handle quoted CSV fields
+    var cols = [];
+    var inQuote = false;
+    var cur = '';
+    for (var i = 0; i < line.length; i++) {
+      var ch = line[i];
+      if (ch === '"') { inQuote = !inQuote; }
+      else if (ch === ',' && !inQuote) { cols.push(cur.trim()); cur = ''; }
+      else { cur += ch; }
+    }
+    cols.push(cur.trim());
+
+    if (cols.length < 3) return;
+
+    var rawDate = cols[fmt.dateCol] || '';
+    var rawDesc = cols[fmt.descCol] || '';
+    var rawAmt  = cols[fmt.amountCol] || '';
+
+    // Parse date dd/mm/yyyy or yyyy-mm-dd
+    var dateStr = '';
+    rawDate = rawDate.replace(/"/g, '').trim();
+    if (rawDate.match(/\d{2}\/\d{2}\/\d{4}/)) {
+      var parts = rawDate.split('/');
+      dateStr = parts[2] + '-' + parts[1] + '-' + parts[0];
+    } else if (rawDate.match(/\d{4}-\d{2}-\d{2}/)) {
+      dateStr = rawDate;
+    } else {
+      return; // Skip unparseable dates
+    }
+
+    // Parse amount
+    var amt = parseFloat(rawAmt.replace(/[^0-9.-]/g, ''));
+    if (isNaN(amt) || amt === 0) return;
+
+    var desc = rawDesc.replace(/"/g, '').trim();
+    if (!desc) return;
+
+    parsedImportRows.push({
+      date:    dateStr,
+      desc:    desc,
+      amount:  Math.abs(amt),
+      type:    amt < 0 ? 'expense' : 'income',
+      account: document.getElementById('import-account').value,
+      skip:    false,
+    });
+  });
+
+  if (parsedImportRows.length === 0) {
+    showToast('No valid transactions found — check your file format');
+    return;
+  }
+
+  renderImportPreview();
+  goImportStep(3);
+}
+
+function renderImportPreview() {
+  const acctOpts = '<option value="tipshop">Tip Shop</option><option value="activities">Activities</option><option value="convention">Convention</option><option value="admin">Administration</option>';
+  const inc = parsedImportRows.filter(r => !r.skip && r.type === 'income').length;
+  const exp = parsedImportRows.filter(r => !r.skip && r.type === 'expense').length;
+  const total = parsedImportRows.filter(r => !r.skip).length;
+
+  document.getElementById('import-summary').innerHTML =
+    '<div class="import-summary-item">Found <span>' + parsedImportRows.length + '</span> transactions</div>' +
+    '<div class="import-summary-item">Income <span style="color:var(--green)">' + inc + '</span></div>' +
+    '<div class="import-summary-item">Expenses <span style="color:var(--red)">' + exp + '</span></div>';
+
+  const preview = document.getElementById('import-preview');
+  // Keep header row
+  const header = '<div class="import-preview-row header"><span>Date</span><span>Description</span><span>Amount</span><span>Account</span><span>Action</span></div>';
+
+  const rows = parsedImportRows.map(function(row, i) {
+    var d = new Date(row.date + 'T00:00:00');
+    var dStr = d.toLocaleDateString('en-AU', {day:'2-digit', month:'short', year:'numeric'});
+    var amtClass = row.skip ? 'imp-skip' : (row.type === 'income' ? 'imp-inc' : 'imp-exp');
+    var amtStr = (row.type === 'income' ? '+' : '-') + '$' + row.amount.toFixed(2);
+    var sel = '<select onchange="updateImportRow(' + i + ',\'account\',this.value)">' +
+      ['tipshop','activities','convention','admin'].map(function(a) {
+        var labels = {tipshop:'Tip Shop',activities:'Activities',convention:'Convention',admin:'Administration'};
+        return '<option value="' + a + '"' + (row.account === a ? ' selected' : '') + '>' + labels[a] + '</option>';
+      }).join('') + '</select>';
+    var skipBtn = '<button class="btn-icon ' + (row.skip ? '' : 'danger') + '" onclick="toggleSkipRow(' + i + ')" style="font-size:11px;padding:3px 8px;">' + (row.skip ? 'Include' : 'Skip') + '</button>';
+    return '<div class="import-preview-row' + (row.skip ? ' imp-skip' : '') + '">' +
+      '<span class="tx-date">' + dStr + '</span>' +
+      '<span class="tx-desc" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + row.desc + '</span>' +
+      '<span class="' + amtClass + '">' + amtStr + '</span>' +
+      sel + skipBtn + '</div>';
+  }).join('');
+
+  preview.innerHTML = header + rows;
+  document.getElementById('import-confirm-btn').textContent = 'Import ' + total + ' transactions';
+}
+
+function updateImportRow(i, field, value) {
+  parsedImportRows[i][field] = value;
+}
+
+function toggleSkipRow(i) {
+  parsedImportRows[i].skip = !parsedImportRows[i].skip;
+  renderImportPreview();
+}
+
+async function confirmImport() {
+  const toImport = parsedImportRows.filter(function(r) { return !r.skip; });
+  if (toImport.length === 0) { showToast('No transactions selected to import'); return; }
+
+  document.getElementById('import-confirm-btn').textContent = 'Importing…';
+  document.getElementById('import-confirm-btn').disabled = true;
+
+  var imported = 0;
+  var failed = 0;
+
+  for (var i = 0; i < toImport.length; i++) {
+    var row = toImport[i];
+    var dbRow = {
+      account:     row.account,
+      type:        row.type,
+      category:    row.type === 'income' ? 'Other income' : 'Other expense',
+      amount:      row.amount,
+      description: row.desc,
+      date:        row.date,
+      receipt:     null,
+    };
+    try {
+      var result = await supabaseClient.from('transactions').insert([dbRow]).select();
+      if (result.error) throw result.error;
+      transactions.push({ ...result.data[0], desc: result.data[0].description });
+      imported++;
+    } catch(e) {
+      console.error('import row error:', e);
+      failed++;
+    }
+  }
+
+  closeImportModal();
+  renderDashboard();
+  renderRecentTx();
+  showToast(imported + ' transactions imported' + (failed > 0 ? ' (' + failed + ' failed)' : '') + ' ✓');
 }
 
 // ── RECENT TRANSACTIONS FEED ──────────────────────────────────────────────────
