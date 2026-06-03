@@ -2698,9 +2698,10 @@ let   gcalAuthPending = null;
 function gcalSignIn(callback) {
   gcalAuthPending = callback;
   const client = google.accounts.oauth2.initTokenClient({
-    client_id: GCAL_CLIENT_ID,
-    scope:     GCAL_SCOPES,
-    callback:  function(resp) {
+    client_id:  GCAL_CLIENT_ID,
+    scope:      GCAL_SCOPES,
+    hint:       'portsorelllionsclub@gmail.com',
+    callback:   function(resp) {
       if (resp.error) {
         console.error('GCal auth error:', resp.error);
         showToast('Google Calendar sign-in failed');
@@ -2710,7 +2711,7 @@ function gcalSignIn(callback) {
       if (gcalAuthPending) { gcalAuthPending(); gcalAuthPending = null; }
     },
   });
-  client.requestAccessToken();
+  client.requestAccessToken({ prompt: '' });
 }
 
 async function gcalCreateEvent(name, date, notes, type) {
