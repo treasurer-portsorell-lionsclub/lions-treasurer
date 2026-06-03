@@ -1976,36 +1976,14 @@ async function loadData() {
   try {
     const { data, error } = await supabaseClient.from('transactions').select('*').order('date', { ascending: false });
     if (error) throw error;
-    if (data && data.length > 0) {
-      transactions = data.map(function(t) {
-      return { ...t, desc: t.description };
+    transactions = (data || []).map(function(t) {
+      return { ...t, desc: t.description || '' };
     });
-    } else {
-      // Seed sample data on first load
-      const today = new Date();
-      const y = today.getFullYear();
-      const samples = [
-        { account:'tipshop',    type:'income',  category:'Sales — cash',               amount:800,  description:'Saturday market sales',         date:y+'-06-01', receipt:null },
-        { account:'tipshop',    type:'income',  category:'Sales — EFTPOS',              amount:1000, description:'EFTPOS weekly takings',         date:y+'-06-05', receipt:null },
-        { account:'tipshop',    type:'expense', category:'Workers compensation',        amount:210,  description:'Annual workers comp premium',   date:y+'-06-07', receipt:null },
-        { account:'activities', type:'income',  category:'Bunnings sausage sizzle',     amount:1100, description:'Bunnings BBQ — cash',           date:y+'-06-08', receipt:null },
-        { account:'activities', type:'income',  category:'Bunnings sausage sizzle',     amount:300,  description:'Bunnings BBQ — EFTPOS',         date:y+'-06-08', receipt:null },
-        { account:'activities', type:'income',  category:'Pancake breakfast',           amount:480,  description:'Anzac Day pancake breakfast',   date:y+'-06-15', receipt:null },
-        { account:'activities', type:'expense', category:'Food & supplies',             amount:90,   description:'BBQ supplies — Bunnings',       date:y+'-06-08', receipt:null },
-        { account:'convention', type:'income',  category:'Membership activities',       amount:1600, description:'Member activity worksheets',    date:y+'-06-01', receipt:null },
-        { account:'convention', type:'expense', category:'Dinner meeting reimbursement',amount:210,  description:'Kms and meals at Shearwater',   date:y+'-06-20', receipt:null },
-        { account:'admin',      type:'income',  category:'Membership fees',             amount:1350, description:'June membership payments',      date:y+'-06-01', receipt:null },
-        { account:'admin',      type:'expense', category:'Stationery',                  amount:65,   description:'Printer ink and paper',         date:y+'-06-10', receipt:null },
-        { account:'admin',      type:'expense', category:'Post box rental',             amount:45,   description:'Annual PO box renewal',         date:y+'-06-12', receipt:null },
-      ];
-      const { data: inserted } = await supabaseClient.from('transactions').insert(samples).select();
-      transactions = (inserted || samples).map(function(t){ return {...t, desc: t.description||t.desc}; });
-    }
   } catch(e) {
     console.error('loadData error:', JSON.stringify(e));
-    // Fallback to localStorage
     const saved = localStorage.getItem('lc_transactions');
     if (saved) transactions = JSON.parse(saved);
+    else transactions = [];
   }
 }
 
@@ -2717,22 +2695,12 @@ async function loadEvents() {
   try {
     const { data, error } = await supabaseClient.from('events').select('*').order('date', { ascending: true });
     if (error) throw error;
-    if (data && data.length > 0) {
-      events = data;
-    } else {
-      const y = new Date().getFullYear();
-      const samples = [
-        { name:'Club meeting',    date:y+'-06-10', type:'meeting',    notes:'Shearwater Resort, 7pm' },
-        { name:'Bunnings BBQ',    date:y+'-06-22', type:'fundraiser', notes:'Bunnings Devonport' },
-        { name:'Christmas dinner',date:y+'-12-05', type:'social',     notes:'TBC' },
-      ];
-      const { data: inserted } = await supabaseClient.from('events').insert(samples).select();
-      events = inserted || samples;
-    }
+    events = data || [];
   } catch(e) {
     console.error('loadEvents error:', JSON.stringify(e));
     const saved = localStorage.getItem('lc_events');
     if (saved) events = JSON.parse(saved);
+    else events = [];
   }
 }
 
