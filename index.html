@@ -8,7 +8,8 @@
 <script>
   const _SB_URL  = 'https://lzacsffgosgqbndutttd.supabase.co';
   const _SB_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx6YWNzZmZnb3NncWJuZHV0dHRkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAzODMxMTUsImV4cCI6MjA5NTk1OTExNX0.MbysbNmBp798enT1zMURjKRysOYJ5PLYNaNnLGa76E4';
-  const supabase = window.supabase.createClient(_SB_URL, _SB_ANON);
+  const { createClient } = supabase;
+  const supabaseClient = createClient(_SB_URL, _SB_ANON);
 </script>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Serif+Display&display=swap" rel="stylesheet">
 <style>
@@ -120,6 +121,9 @@
     color: var(--text);
     background: var(--surface);
     transition: border-color 0.2s;
+  }
+
+  .login-field select {
     appearance: none;
     -webkit-appearance: none;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236B7A99' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
@@ -1970,7 +1974,7 @@ let receiptData = null;
 
 async function loadData() {
   try {
-    const { data, error } = await supabase.from('transactions').select('*').order('date', { ascending: false });
+    const { data, error } = await supabaseClient.from('transactions').select('*').order('date', { ascending: false });
     if (error) throw error;
     if (data && data.length > 0) {
       transactions = data.map(function(t) {
@@ -1994,11 +1998,11 @@ async function loadData() {
         { account:'admin',      type:'expense', category:'Stationery',                  amount:65,   description:'Printer ink and paper',         date:y+'-06-10', receipt:null },
         { account:'admin',      type:'expense', category:'Post box rental',             amount:45,   description:'Annual PO box renewal',         date:y+'-06-12', receipt:null },
       ];
-      const { data: inserted } = await supabase.from('transactions').insert(samples).select();
+      const { data: inserted } = await supabaseClient.from('transactions').insert(samples).select();
       transactions = (inserted || samples).map(function(t){ return {...t, desc: t.description||t.desc}; });
     }
   } catch(e) {
-    console.error('loadData error:', e);
+    console.error('loadData error:', JSON.stringify(e));
     // Fallback to localStorage
     const saved = localStorage.getItem('lc_transactions');
     if (saved) transactions = JSON.parse(saved);
@@ -2240,7 +2244,7 @@ async function saveTx() {
 
   try {
     const dbTx = { account: tx.account, type: tx.type, category: tx.category, amount: tx.amount, description: tx.desc, date: tx.date, receipt: tx.receipt };
-    const { data, error } = await supabase.from('transactions').insert([dbTx]).select();
+    const { data, error } = await supabaseClient.from('transactions').insert([dbTx]).select();
     if (error) throw error;
     transactions.push({ ...data[0], desc: data[0].description });
     localStorage.setItem('lc_transactions', JSON.stringify(transactions));
@@ -2711,7 +2715,7 @@ let editingEventId = null;
 
 async function loadEvents() {
   try {
-    const { data, error } = await supabase.from('events').select('*').order('date', { ascending: true });
+    const { data, error } = await supabaseClient.from('events').select('*').order('date', { ascending: true });
     if (error) throw error;
     if (data && data.length > 0) {
       events = data;
@@ -2722,11 +2726,11 @@ async function loadEvents() {
         { name:'Bunnings BBQ',    date:y+'-06-22', type:'fundraiser', notes:'Bunnings Devonport' },
         { name:'Christmas dinner',date:y+'-12-05', type:'social',     notes:'TBC' },
       ];
-      const { data: inserted } = await supabase.from('events').insert(samples).select();
+      const { data: inserted } = await supabaseClient.from('events').insert(samples).select();
       events = inserted || samples;
     }
   } catch(e) {
-    console.error('loadEvents error:', e);
+    console.error('loadEvents error:', JSON.stringify(e));
     const saved = localStorage.getItem('lc_events');
     if (saved) events = JSON.parse(saved);
   }
@@ -2831,11 +2835,11 @@ async function saveEvent() {
       const idx = events.findIndex(e => e.id === editingEventId);
       if (idx >= 0) {
         const updated = { ...events[idx], name, date, type, notes };
-        await supabase.from('events').upsert(updated);
+        await supabaseClient.from('events').upsert(updated);
         events[idx] = updated;
       }
     } else {
-      const { data } = await supabase.from('events').insert([{ name, date, type, notes }]).select();
+      const { data } = await supabaseClient.from('events').insert([{ name, date, type, notes }]).select();
       events.push(data ? data[0] : { id:'E'+Date.now(), name, date, type, notes });
     }
   } catch(e) {
@@ -2853,7 +2857,7 @@ async function saveEvent() {
 async function deleteEvent(id) {
   if (!confirm('Remove this event?')) return;
   try {
-    await supabase.from('events').delete().eq('id', id);
+    await supabaseClient.from('events').delete().eq('id', id);
   } catch(e) { console.error('deleteEvent error:', e); }
   events = events.filter(e => e.id !== id);
   localStorage.setItem('lc_events', JSON.stringify(events));
@@ -2909,11 +2913,11 @@ let editingMemberId = null;
 
 async function loadMembers() {
   try {
-    const { data, error } = await supabase.from('members').select('*').order('last', { ascending: true });
+    const { data, error } = await supabaseClient.from('members').select('*').order('last', { ascending: true });
     if (error) throw error;
     members = data || [];
   } catch(e) {
-    console.error('loadMembers error:', e);
+    console.error('loadMembers error:', JSON.stringify(e));
     const saved = localStorage.getItem('lc_members');
     if (saved) members = JSON.parse(saved);
   }
@@ -3031,7 +3035,7 @@ async function saveMember() {
         paid:    memberPaid,
       };
       try {
-        await supabase.from('members').upsert(updated);
+        await supabaseClient.from('members').upsert(updated);
       } catch(e) { console.error('update member error:', e); }
       members[idx] = updated;
     }
@@ -3047,7 +3051,7 @@ async function saveMember() {
       joined:  new Date().toISOString().split('T')[0],
     };
     try {
-      const { data } = await supabase.from('members').insert([newMember]).select();
+      const { data } = await supabaseClient.from('members').insert([newMember]).select();
       members.push(data ? data[0] : { ...newMember, id: 'M'+Date.now() });
     } catch(e) {
       console.error('add member error:', e);
@@ -3063,7 +3067,7 @@ async function saveMember() {
 async function deleteMember(id) {
   if (!confirm('Remove this member from the directory?')) return;
   try {
-    await supabase.from('members').delete().eq('id', id);
+    await supabaseClient.from('members').delete().eq('id', id);
   } catch(e) { console.error('delete member error:', e); }
   members = members.filter(m => m.id !== id);
   localStorage.setItem('lc_members', JSON.stringify(members));
