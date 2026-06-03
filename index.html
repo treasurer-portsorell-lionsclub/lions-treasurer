@@ -1754,6 +1754,36 @@
         <button class="btn btn-secondary" onclick="exportBackup()">💾 Backup Data</button>
         <button class="btn btn-secondary" onclick="window.open('https://drive.google.com/drive/folders/1igINgSjkupj-bBXmDapZT2PF7RwVcnCP?usp=sharing','_blank')">📁 Club Documents</button>
       </div>
+
+      <!-- ── HOW TO GUIDES ── -->
+      <div class="guide-bar" id="guide-bar">
+        <button class="btn-guide" onclick="toggleGuides()">
+          <span class="guide-icon">📖</span>
+          System How To Guides
+          <span id="guide-chevron" style="margin-left:auto;font-size:12px;opacity:0.8;">▼ Show</span>
+        </button>
+        <div class="guides-panel" id="guides-panel">
+          <div class="guides-header">
+            <h3>Port Sorell Lions Club — Help Guides</h3>
+            <p>Step-by-step instructions written especially for this system. Click any guide to read it.</p>
+          </div>
+          <div class="guides-grid">
+            <div class="guide-card" onclick="openGuide('import-bank')"><div class="guide-card-icon">🏦</div><div><div class="guide-card-title">Importing a bank statement</div><div class="guide-card-desc">How to download your bank CSV and bring it into the system</div></div></div>
+            <div class="guide-card" onclick="openGuide('add-transaction')"><div class="guide-card-icon">✏️</div><div><div class="guide-card-title">Adding a transaction</div><div class="guide-card-desc">Recording income and expenses into the right account</div></div></div>
+            <div class="guide-card" onclick="openGuide('receipts')"><div class="guide-card-icon">🧾</div><div><div class="guide-card-title">Uploading and downloading receipts</div><div class="guide-card-desc">How to attach a receipt and download them all at tax time</div></div></div>
+            <div class="guide-card" onclick="openGuide('add-member')"><div class="guide-card-icon">👤</div><div><div class="guide-card-title">Adding a member</div><div class="guide-card-desc">Adding new members and tracking their membership fees</div></div></div>
+            <div class="guide-card" onclick="openGuide('add-event')"><div class="guide-card-icon">📅</div><div><div class="guide-card-title">Adding an event</div><div class="guide-card-desc">Adding club meetings, fundraisers and birthdays to the calendar</div></div></div>
+            <div class="guide-card" onclick="openGuide('google-drive')"><div class="guide-card-icon">📁</div><div><div class="guide-card-title">Club documents (Google Drive)</div><div class="guide-card-desc">How to upload, open and download Word and Excel documents</div></div></div>
+            <div class="guide-card" onclick="openGuide('email-members')"><div class="guide-card-icon">✉️</div><div><div class="guide-card-title">Emailing members</div><div class="guide-card-desc">How to send emails to all or selected members</div></div></div>
+            <div class="guide-card" onclick="openGuide('backup')"><div class="guide-card-icon">💾</div><div><div class="guide-card-title">Backing up your data</div><div class="guide-card-desc">When and how to create a backup of all club financial data</div></div></div>
+            <div class="guide-card" onclick="openGuide('dashboard')"><div class="guide-card-icon">📊</div><div><div class="guide-card-title">Reading the dashboard</div><div class="guide-card-desc">Understanding what all the numbers and sections mean</div></div></div>
+            <div class="guide-card" onclick="openGuide('printing')"><div class="guide-card-icon">🖨️</div><div><div class="guide-card-title">Printing reports</div><div class="guide-card-desc">How to print financial reports and the events calendar</div></div></div>
+            <div class="guide-card" onclick="openGuide('google-calendar')"><div class="guide-card-icon">🗓️</div><div><div class="guide-card-title">Using Google Calendar</div><div class="guide-card-desc">Syncing events and printing the club calendar</div></div></div>
+            <div class="guide-card" onclick="openGuide('investments')"><div class="guide-card-icon">📈</div><div><div class="guide-card-title">Investment accounts</div><div class="guide-card-desc">How to update investment account balances and maturity dates</div></div></div>
+          </div>
+        </div>
+      </div>
+
     </div>
 
     <!-- ── ACCOUNT DETAIL ── -->
