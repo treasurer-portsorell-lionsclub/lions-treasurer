@@ -1564,7 +1564,7 @@
           <div style="font-size:13px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em;">Calendar</div>
           <div style="display:flex;gap:8px;">
           <button class="cal-print-btn" onclick="syncAllEventsToGcal()">🔄 Sync all events</button>
-          <button class="cal-print-btn" onclick="window.open('https://calendar.google.com/calendar/embed?src=portsorelllionsclub%40gmail.com&ctz=Australia%2FHobart','_blank')">📅 Open Google Calendar</button>
+          <button class="cal-print-btn" onclick="window.open('https://calendar.google.com/calendar/u/1/r','_blank')">📅 Open Google Calendar</button>
         </div>
         </div>
         <div class="cal-wrap" id="cal-wrap">
@@ -1660,8 +1660,8 @@
           <div class="page-sub" id="allevents-sub">Upcoming events and birthdays</div>
         </div>
         <div style="display:flex;gap:8px;align-items:center;">
-          <button class="btn btn-secondary" onclick="window.open('https://calendar.google.com/calendar/embed?src=portsorelllionsclub%40gmail.com&ctz=Australia%2FHobart','_blank')">📅 Google Calendar</button>
-          <button class="btn btn-secondary" onclick="window.open('https://calendar.google.com/calendar/embed?src=portsorelllionsclub%40gmail.com&ctz=Australia%2FHobart','_blank')">📅 Google Calendar</button>
+          <button class="btn btn-secondary" onclick="window.open('https://calendar.google.com/calendar/u/1/r','_blank')">📅 Google Calendar</button>
+          <button class="btn btn-secondary" onclick="window.open('https://calendar.google.com/calendar/u/1/r','_blank')">📅 Google Calendar</button>
           <button class="btn btn-secondary" onclick="window.print()">🖨 Print</button>
           <button class="btn btn-gold" id="allevents-add-btn" onclick="openEventModal(null)">+ Add event</button>
         </div>
@@ -2509,7 +2509,7 @@ function toggleTxDetail(id) {
 
 
 function printCalendar() {
-  window.open('https://calendar.google.com/calendar/embed?src=portsorelllionsclub%40gmail.com&ctz=Australia%2FHobart', '_blank');
+  window.open('https://calendar.google.com/calendar/u/1/r', '_blank');
 }
 
 // ── ALL EVENTS VIEW ──────────────────────────────────────────────────────────
@@ -2747,9 +2747,9 @@ async function gcalCreateBirthday(first, last, dob) {
   if (!dob) return;
   if (!gcalToken) { gcalSignIn(function() { gcalCreateBirthday(first, last, dob); }); return; }
 
-  var dobDate  = new Date(dob);
+  var dobParts = dob.split('-');
   var thisYear = new Date().getFullYear();
-  var bdDate   = thisYear + '-' + String(dobDate.getMonth()+1).padStart(2,'0') + '-' + String(dobDate.getDate()).padStart(2,'0');
+  var bdDate   = thisYear + '-' + dobParts[1] + '-' + dobParts[2];
 
   var body = {
     summary:     first + ' ' + last + "'s Birthday",
@@ -2773,25 +2773,29 @@ async function gcalCreateBirthday(first, last, dob) {
 }
 
 
-function syncAllEventsToGcal() {
+async function syncAllEventsToGcal() {
   if (!gcalToken) {
     gcalSignIn(function() { syncAllEventsToGcal(); });
     return;
   }
   var toSync = events.slice();
-  // Add birthdays
+  // Add member birthdays with corrected dates
+  var thisYear = new Date().getFullYear();
   members.forEach(function(m) {
-    if (m.dob) toSync.push({ name: m.first+' '+m.last+"'s Birthday", date: m.dob, type:'birthday', notes:'' });
+    if (!m.dob) return;
+    var parts = m.dob.split('-');
+    var bdDate = thisYear + '-' + parts[1] + '-' + parts[2];
+    toSync.push({ name: m.first+' '+m.last+"'s Birthday", date: bdDate, type:'birthday', notes:'' });
   });
   if (toSync.length === 0) { showToast('No events to sync'); return; }
-  var done = 0;
-  toSync.forEach(function(ev) {
-    gcalCreateEvent(ev.name, ev.date, ev.notes || '', ev.type).then(function() {
-      done++;
-      if (done === toSync.length) showToast(done + ' events synced to Google Calendar ✓');
-    });
-  });
   showToast('Syncing ' + toSync.length + ' events to Google Calendar…');
+  var done = 0;
+  for (var i = 0; i < toSync.length; i++) {
+    var ev = toSync[i];
+    await gcalCreateEvent(ev.name, ev.date, ev.notes || '', ev.type);
+    done++;
+  }
+  showToast(done + ' events synced to Google Calendar ✓');
 }
 
 // ── CSV IMPORT ────────────────────────────────────────────────────────────────
@@ -3281,10 +3285,12 @@ function allUpcomingEvents() {
   // Birthday events from members
   members.forEach(m => {
     if (!m.dob) return;
-    const dob = new Date(m.dob);
+    const dobParts = m.dob.split('-');
+    const dobMonth = parseInt(dobParts[1]) - 1;
+    const dobDay   = parseInt(dobParts[2]);
     // This year and next year birthday
     [yr, yr+1].forEach(y => {
-      const bd = new Date(y, dob.getMonth(), dob.getDate());
+      const bd = new Date(y, dobMonth, dobDay);
       if (bd >= today) {
         evs.push({
           id: 'BD-' + m.id + '-' + y,
