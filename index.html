@@ -455,11 +455,15 @@
     background: var(--white);
     border: 1px solid var(--border);
     border-radius: var(--radius-lg);
-    overflow: hidden;
+    overflow-x: auto;
+    overflow-y: hidden;
     width: 100%;
+    scrollbar-width: none;
   }
+  .action-bar::-webkit-scrollbar { display: none; }
   .action-bar .btn {
     flex: 1;
+    min-width: 160px;
     border-radius: 0;
     border: none;
     border-right: 1px solid var(--border);
@@ -467,6 +471,7 @@
     font-size: 14px;
     text-align: center;
     justify-content: center;
+    white-space: nowrap;
   }
   .action-bar .btn:last-child { border-right: none; }
   .action-bar label.btn { display: flex; align-items: center; justify-content: center; }
@@ -1472,7 +1477,7 @@
     <div class="nav-divider"></div>
     <button class="nav-btn gray"  id="nav-investments" onclick="navTo('investments')">Investments</button>
     <div class="nav-divider"></div>
-    <button class="nav-btn" id="nav-alltx" onclick="navTo('alltx')">All transactions</button>
+    <button class="nav-btn" id="nav-alltx" onclick="navTo('alltx')">All Transactions</button>
   </nav>
 
   <div class="main">
@@ -1588,10 +1593,10 @@
       </div>
       <div class="action-bar" id="action-bar">
         <button class="btn btn-gold" onclick="openTxModal(null)">+ Add Transaction</button>
-        <button class="btn btn-secondary" onclick="openImportModal()">📥 Import from Bank</button>
-        <button class="btn btn-secondary" onclick="exportBackup()">💾 Backup Data</button>
         <button class="btn btn-secondary" onclick="downloadAllReceipts()">🧾 Download Receipts</button>
-        <label class="btn btn-secondary" style="cursor:pointer;">📂 Restore Backup <input type="file" accept=".json" style="display:none" onchange="importBackup(event)"></label>
+        <button class="btn btn-secondary" onclick="openImportModal()">📥 Import Bank Statement</button>
+        <button class="btn btn-secondary" onclick="exportBackup()">💾 Backup Data</button>
+        <button class="btn btn-secondary" onclick="window.open('https://drive.google.com/drive/folders/1igINgSjkupj-bBXmDapZT2PF7RwVcnCP?usp=sharing','_blank')">📁 Club Documents</button>
       </div>
     </div>
 
@@ -1665,7 +1670,6 @@
           <div class="page-sub" id="allevents-sub">Upcoming events and birthdays</div>
         </div>
         <div style="display:flex;gap:8px;align-items:center;">
-          <button class="btn btn-secondary" onclick="window.open('https://calendar.google.com/calendar/u/1/r','_blank')">📅 Google Calendar</button>
           <button class="btn btn-secondary" onclick="window.open('https://calendar.google.com/calendar/u/1/r','_blank')">📅 Google Calendar</button>
           <button class="btn btn-secondary" onclick="window.print()">🖨 Print</button>
           <button class="btn btn-gold" id="allevents-add-btn" onclick="openEventModal(null)">+ Add Event</button>
@@ -3265,7 +3269,7 @@ function buildAllEvents() {
     const dp = m.dob.split('-');
     const dobM = parseInt(dp[1]) - 1;
     const dobD = parseInt(dp[2]);
-    [yr - 1, yr, yr + 1, yr + 2].forEach(y => {
+    [yr, yr + 1].forEach(y => {
       const bd = new Date(y, dobM, dobD);
       evs.push({
         id: 'BD-' + m.id + '-' + y,
