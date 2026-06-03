@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Lions Club Treasurer — Port Sorell</title>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
   const _SB_URL  = 'https://lzacsffgosgqbndutttd.supabase.co';
@@ -1561,7 +1562,10 @@
       <div style="margin-top:1.5rem;">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
           <div style="font-size:13px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em;">Calendar</div>
+          <div style="display:flex;gap:8px;">
+          <button class="cal-print-btn" onclick="syncAllEventsToGcal()">🔄 Sync all events</button>
           <button class="cal-print-btn" onclick="window.open('https://calendar.google.com/calendar/embed?src=portsorelllionsclub%40gmail.com&ctz=Australia%2FHobart','_blank')">📅 Open Google Calendar</button>
+        </div>
         </div>
         <div class="cal-wrap" id="cal-wrap">
           <div class="cal-header">
@@ -2679,6 +2683,117 @@ function exportAllTxCSV() {
 }
 
 
+
+// ── GOOGLE CALENDAR SYNC ──────────────────────────────────────────────────────
+const GCAL_CLIENT_ID  = '471481196405-d6o9i5a60qajackoar2r6pn7uo57h0r8.apps.googleusercontent.com';
+const GCAL_SCOPES     = 'https://www.googleapis.com/auth/calendar.events';
+const GCAL_ID         = 'portsorelllionsclub@gmail.com';
+let   gcalToken       = null;
+let   gcalAuthPending = null;
+
+function gcalSignIn(callback) {
+  gcalAuthPending = callback;
+  const client = google.accounts.oauth2.initTokenClient({
+    client_id: GCAL_CLIENT_ID,
+    scope:     GCAL_SCOPES,
+    callback:  function(resp) {
+      if (resp.error) {
+        console.error('GCal auth error:', resp.error);
+        showToast('Google Calendar sign-in failed');
+        return;
+      }
+      gcalToken = resp.access_token;
+      if (gcalAuthPending) { gcalAuthPending(); gcalAuthPending = null; }
+    },
+  });
+  client.requestAccessToken();
+}
+
+async function gcalCreateEvent(name, date, notes, type) {
+  if (!gcalToken) { gcalSignIn(function() { gcalCreateEvent(name, date, notes, type); }); return; }
+
+  var colorMap = { meeting:9, fundraiser:2, social:5, birthday:6, other:8 };
+  var body = {
+    summary:     name,
+    description: notes || '',
+    colorId:     String(colorMap[type] || 8),
+    start: { date: date },
+    end:   { date: date },
+  };
+
+  try {
+    var resp = await fetch('https://www.googleapis.com/calendar/v3/calendars/' + encodeURIComponent(GCAL_ID) + '/events', {
+      method:  'POST',
+      headers: { 'Authorization': 'Bearer ' + gcalToken, 'Content-Type': 'application/json' },
+      body:    JSON.stringify(body),
+    });
+    if (!resp.ok) {
+      var err = await resp.json();
+      if (err.error && err.error.code === 401) {
+        gcalToken = null;
+        gcalSignIn(function() { gcalCreateEvent(name, date, notes, type); });
+        return;
+      }
+      throw new Error(err.error.message);
+    }
+    showToast('Event added to Google Calendar ✓');
+  } catch(e) {
+    console.error('gcalCreateEvent error:', e);
+    showToast('Could not add to Google Calendar — check permissions');
+  }
+}
+
+async function gcalCreateBirthday(first, last, dob) {
+  if (!dob) return;
+  if (!gcalToken) { gcalSignIn(function() { gcalCreateBirthday(first, last, dob); }); return; }
+
+  var dobDate  = new Date(dob);
+  var thisYear = new Date().getFullYear();
+  var bdDate   = thisYear + '-' + String(dobDate.getMonth()+1).padStart(2,'0') + '-' + String(dobDate.getDate()).padStart(2,'0');
+
+  var body = {
+    summary:     first + ' ' + last + "'s Birthday",
+    colorId:     '6',
+    start: { date: bdDate, },
+    end:   { date: bdDate, },
+    recurrence: ['RRULE:FREQ=YEARLY'],
+  };
+
+  try {
+    var resp = await fetch('https://www.googleapis.com/calendar/v3/calendars/' + encodeURIComponent(GCAL_ID) + '/events', {
+      method:  'POST',
+      headers: { 'Authorization': 'Bearer ' + gcalToken, 'Content-Type': 'application/json' },
+      body:    JSON.stringify(body),
+    });
+    if (!resp.ok) throw new Error('Failed');
+    showToast(first + "'s birthday added to Google Calendar ✓");
+  } catch(e) {
+    console.error('gcalCreateBirthday error:', e);
+  }
+}
+
+
+function syncAllEventsToGcal() {
+  if (!gcalToken) {
+    gcalSignIn(function() { syncAllEventsToGcal(); });
+    return;
+  }
+  var toSync = events.slice();
+  // Add birthdays
+  members.forEach(function(m) {
+    if (m.dob) toSync.push({ name: m.first+' '+m.last+"'s Birthday", date: m.dob, type:'birthday', notes:'' });
+  });
+  if (toSync.length === 0) { showToast('No events to sync'); return; }
+  var done = 0;
+  toSync.forEach(function(ev) {
+    gcalCreateEvent(ev.name, ev.date, ev.notes || '', ev.type).then(function() {
+      done++;
+      if (done === toSync.length) showToast(done + ' events synced to Google Calendar ✓');
+    });
+  });
+  showToast('Syncing ' + toSync.length + ' events to Google Calendar…');
+}
+
 // ── CSV IMPORT ────────────────────────────────────────────────────────────────
 let selectedBank = null;
 let parsedImportRows = [];
@@ -3270,6 +3385,10 @@ async function saveEvent() {
   renderEvents();
   renderCalendar();
   showToast('Event saved ✓');
+  // Sync to Google Calendar
+  if (!editingEventId) {
+    gcalCreateEvent(name, date, notes, type);
+  }
 }
 
 async function deleteEvent(id) {
@@ -3476,6 +3595,9 @@ async function saveMember() {
       members.push({ ...newMember, id: 'M'+Date.now() });
     }
     showToast('Member added ✓');
+    // Sync birthday to Google Calendar if DOB provided
+    var dobVal = document.getElementById('m-dob').value;
+    if (dobVal) gcalCreateBirthday(first, last, dobVal);
   }
   saveMembers();
   closeMemberModal();
