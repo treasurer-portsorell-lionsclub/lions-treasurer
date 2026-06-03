@@ -2210,6 +2210,7 @@ function doLogin() {
       document.getElementById('add-event-btn').style.display = 'none';
     }
     document.getElementById('dashboard-view').style.display = 'block';
+    history.pushState({ target: 'home' }, '', '#home');
     showNavBar();
     showToast('Loading data…');
     Promise.all([loadData(), loadMembers(), loadEvents()]).then(function() {
@@ -3246,16 +3247,15 @@ function calNext() {
 }
 
 // ── NAVIGATION ────────────────────────────────────────────────────────────────
-function navTo(target) {
-  // Hide all views
+function navTo(target, pushState) {
+  if (pushState !== false) {
+    history.pushState({ target: target }, '', '#' + target);
+  }
   ['dashboard-view','detail-view','members-view','investments-view','alltx-view','allevents-view'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.style.display = 'none';
   });
-
-  // Clear All active nav buttons
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-
   if (target === 'home') {
     document.getElementById('dashboard-view').style.display = 'block';
     document.getElementById('nav-home').classList.add('active');
@@ -3265,6 +3265,11 @@ function navTo(target) {
   } else if (target === 'investments') {
     document.getElementById('investments-view').style.display = 'block';
     document.getElementById('nav-investments').classList.add('active');
+  } else if (target === 'alltx') {
+    document.getElementById('alltx-view').style.display = 'block';
+    document.getElementById('nav-alltx').classList.add('active');
+    if (currentRole === 'auditor') document.getElementById('alltx-add-btn').style.display = 'none';
+    renderAllTx();
   } else if (target === 'allevents') {
     document.getElementById('allevents-view').style.display = 'block';
     if (currentRole === 'auditor') {
@@ -3272,18 +3277,18 @@ function navTo(target) {
       if (b) b.style.display = 'none';
     }
     renderAllEvents();
-  } else if (target === 'alltx') {
-    document.getElementById('alltx-view').style.display = 'block';
-    document.getElementById('nav-alltx').classList.add('active');
-    if (currentRole === 'auditor') document.getElementById('alltx-add-btn').style.display = 'none';
-    renderAllTx();
   } else {
-    // It's an account ID
     showDetail(target);
     const btn = document.getElementById('nav-' + target);
     if (btn) btn.classList.add('active');
   }
 }
+
+window.addEventListener('popstate', function(e) {
+  if (!document.getElementById('app') || document.getElementById('app').style.display === 'none') return;
+  const target = (e.state && e.state.target) || 'home';
+  navTo(target, false);
+});
 
 function showNavBar() {
   document.getElementById('main-navbar').style.display = 'flex';
@@ -3506,6 +3511,7 @@ async function saveMembers() {
 }
 
 function showMembers() {
+  // already has pushState({ target: 'members' }, '', '#members');
   ['dashboard-view','detail-view','investments-view','alltx-view','allevents-view'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.style.display = 'none';
