@@ -3158,13 +3158,15 @@ function buildAllEvents() {
   let evs = events.map(e => ({ ...e, isBirthday: false }));
   members.forEach(m => {
     if (!m.dob) return;
-    const dob = new Date(m.dob);
+    const dp = m.dob.split('-');
+    const dobM = parseInt(dp[1]) - 1;
+    const dobD = parseInt(dp[2]);
     [yr - 1, yr, yr + 1, yr + 2].forEach(y => {
-      const bd = new Date(y, dob.getMonth(), dob.getDate());
+      const bd = new Date(y, dobM, dobD);
       evs.push({
         id: 'BD-' + m.id + '-' + y,
         name: m.first + ' ' + m.last + "'s birthday",
-        date: bd.toISOString().split('T')[0],
+        date: bd.getFullYear() + '-' + String(bd.getMonth()+1).padStart(2,'0') + '-' + String(bd.getDate()).padStart(2,'0'),
         type: 'birthday',
         notes: '',
         isBirthday: true,
@@ -3295,7 +3297,7 @@ function allUpcomingEvents() {
         evs.push({
           id: 'BD-' + m.id + '-' + y,
           name: m.first + ' ' + m.last + "'s birthday",
-          date: bd.toISOString().split('T')[0],
+          date: bd.getFullYear() + '-' + String(bd.getMonth()+1).padStart(2,'0') + '-' + String(bd.getDate()).padStart(2,'0'),
           type: 'birthday',
           notes: '',
           isBirthday: true,
