@@ -1382,6 +1382,162 @@
 
   .import-summary-item span { font-weight: 600; color: var(--navy); }
 
+
+  /* ── HOW TO GUIDES ── */
+  .guide-bar {
+    margin-bottom: 1.5rem;
+  }
+
+  .btn-guide {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 24px;
+    background: linear-gradient(135deg, #2980B9, #1A5276);
+    color: white;
+    border: none;
+    border-radius: var(--radius-lg);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    box-shadow: 0 3px 12px rgba(26,82,118,0.3);
+    transition: all 0.2s;
+    letter-spacing: 0.01em;
+  }
+
+  .btn-guide:hover {
+    background: linear-gradient(135deg, #1A5276, #0E2F44);
+    box-shadow: 0 5px 18px rgba(26,82,118,0.4);
+    transform: translateY(-1px);
+  }
+
+  .btn-guide .guide-icon { font-size: 20px; }
+
+  .guides-panel {
+    display: none;
+    margin-top: 12px;
+    background: var(--white);
+    border: 1px solid #AED6F1;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: 0 4px 16px rgba(26,82,118,0.08);
+  }
+
+  .guides-panel.open { display: block; }
+
+  .guides-header {
+    background: linear-gradient(135deg, #2980B9, #1A5276);
+    padding: 16px 20px;
+    color: white;
+  }
+
+  .guides-header h3 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 18px;
+    font-weight: 400;
+    margin-bottom: 3px;
+  }
+
+  .guides-header p { font-size: 13px; opacity: 0.8; }
+
+  .guides-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: #AED6F1;
+  }
+
+  .guide-card {
+    background: var(--white);
+    padding: 16px 18px;
+    cursor: pointer;
+    transition: background 0.15s;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .guide-card:hover { background: #EAF4FC; }
+
+  .guide-card-icon {
+    font-size: 24px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .guide-card-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--navy);
+    margin-bottom: 3px;
+  }
+
+  .guide-card-desc {
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+
+  /* Guide modal */
+  .guide-modal-content {
+    max-height: 70vh;
+    overflow-y: auto;
+    padding: 0 0.5rem;
+  }
+
+  .guide-step {
+    display: flex;
+    gap: 14px;
+    margin-bottom: 1.2rem;
+    align-items: flex-start;
+  }
+
+  .guide-step-num {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #2980B9, #1A5276);
+    color: white;
+    font-size: 14px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .guide-step-text {
+    flex: 1;
+  }
+
+  .guide-step-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--navy);
+    margin-bottom: 4px;
+  }
+
+  .guide-step-detail {
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.7;
+  }
+
+  .guide-tip {
+    background: #EAF4FC;
+    border-left: 3px solid #2980B9;
+    border-radius: 0 var(--radius) var(--radius) 0;
+    padding: 10px 14px;
+    font-size: 13px;
+    color: #1A5276;
+    margin-top: 1rem;
+    line-height: 1.6;
+  }
+
+  .guide-tip strong { color: #1A5276; }
+
   /* ── PRINT ── */
   @media print {
     @page { size: A4 landscape; margin: 12mm; }
@@ -2145,6 +2301,17 @@
       </div>
     </div>
 
+  </div>
+</div>
+
+<!-- ══════════════ GUIDE MODAL ══════════════ -->
+<div class="modal-bg" id="guide-modal">
+  <div class="modal" style="max-width:580px;">
+    <div class="modal-title" id="guide-modal-title" style="color:#1A5276;">📖 Guide</div>
+    <div class="guide-modal-content" id="guide-modal-body"></div>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="document.getElementById('guide-modal').classList.remove('open')">Close</button>
+    </div>
   </div>
 </div>
 
@@ -3154,6 +3321,194 @@ async function downloadAllReceipts() {
     console.error('ZIP error:', e);
     showToast('Could not create ZIP file');
   }
+}
+
+
+// ── HOW TO GUIDES ─────────────────────────────────────────────────────────────
+function toggleGuides() {
+  var panel = document.getElementById('guides-panel');
+  var chev  = document.getElementById('guide-chevron');
+  var isOpen = panel.classList.contains('open');
+  if (isOpen) {
+    panel.classList.remove('open');
+    chev.textContent = '▼ Show guides';
+  } else {
+    panel.classList.add('open');
+    chev.textContent = '▲ Hide guides';
+    panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+}
+
+const GUIDES = {
+  'import-bank': {
+    title: '🏦 Importing a bank statement',
+    steps: [
+      { title: 'Log in to your bank\'s internet banking', detail: 'Go to your bank\'s website (Commonwealth Bank, Bendigo Bank etc.) and sign in as normal.' },
+      { title: 'Find the transaction history or export section', detail: 'Look for "Transaction history", "Account activity" or "Statements". Each bank is slightly different but they all have this.' },
+      { title: 'Select the date range', detail: 'Choose the period you want to import — for example, the last month. Try not to overlap with dates you have already imported.' },
+      { title: 'Export as CSV', detail: 'Look for an "Export", "Download" or "Save" button. Choose "CSV" format (not PDF or OFX). The file will download to your Downloads folder.' },
+      { title: 'Come back to this program', detail: 'Click the "📥 Import Bank Statement" button at the bottom of the dashboard.' },
+      { title: 'Select your bank', detail: 'Choose your bank from the list — Commonwealth Bank, Bendigo Bank, ANZ, Westpac or NAB.' },
+      { title: 'Choose the account', detail: 'Select which Lions Club account this bank statement belongs to — Tip Shop, Activities, Convention or Administration.' },
+      { title: 'Upload the CSV file', detail: 'Click "Click to choose your CSV file" and find the file you just downloaded from the bank. It will usually be in your Downloads folder.' },
+      { title: 'Review and confirm', detail: 'The system will show you all the transactions it found. You can change which account each one goes to, or skip any you do not want. When you are happy, click "Import transactions".' },
+    ],
+    tip: '💡 Tip: Do this at the end of each month to keep the records up to date. It only takes a few minutes once you know where to find the export button on your bank\'s website.'
+  },
+  'add-transaction': {
+    title: '✏️ Adding a transaction',
+    steps: [
+      { title: 'Click the "+ Add Transaction" button', detail: 'This big gold button is at the bottom of the dashboard. You can also find it in the footer quick links.' },
+      { title: 'Choose the account', detail: 'Select which account this transaction belongs to — Tip Shop, Activities, Convention or Administration.' },
+      { title: 'Choose Income or Expense', detail: 'Click "Income (money in)" if the club received money, or "Expense (money out)" if the club spent money.' },
+      { title: 'Choose a category', detail: 'The categories change depending on which account you chose. Pick the one that best matches the transaction.' },
+      { title: 'Enter the amount', detail: 'Type the dollar amount. Do not include the $ sign — just the number. For example: 250.00' },
+      { title: 'Add a description', detail: 'Write a brief note about what this transaction was for. For example: "Bunnings BBQ Saturday 14 June".' },
+      { title: 'Select the date', detail: 'Click the date field and choose the date the transaction occurred.' },
+      { title: 'Attach a receipt (optional)', detail: 'If you have a photo of the receipt, click "Tap to attach a photo of the receipt" and choose the photo from your computer or phone.' },
+      { title: 'Click "Save Transaction"', detail: 'The transaction will be saved and will immediately appear in the correct account and on the dashboard.' },
+    ],
+    tip: '💡 Tip: Try to enter transactions as soon as they happen rather than leaving them all to the end of the month — it only takes 30 seconds and keeps everything accurate.'
+  },
+  'receipts': {
+    title: '🧾 Uploading and downloading receipts',
+    steps: [
+      { title: 'Taking a photo of a receipt', detail: 'When you have a paper receipt, take a clear photo of it with your phone or tablet. Make sure the whole receipt is visible and the text is readable.' },
+      { title: 'Attaching a receipt to a transaction', detail: 'When adding a new transaction, scroll down to the "Receipt photo" section and click "Tap to attach a photo of the receipt". Choose the photo you just took.' },
+      { title: 'Viewing a receipt', detail: 'Go to any account (e.g. Activities), click on a transaction to expand it, and if a receipt was attached you will see it displayed there. Click the image to enlarge it.' },
+      { title: 'Downloading all receipts at tax time', detail: 'Click the "🧾 Download Receipts" button at the bottom of the dashboard. The system will package all receipts into a single ZIP file and download it to your computer.' },
+      { title: 'Opening the ZIP file', detail: 'Find the downloaded ZIP file in your Downloads folder. Double-click it to open it. You will see all receipts neatly named by date, account and description, plus a summary spreadsheet.' },
+      { title: 'Sharing with your accountant', detail: 'You can email the ZIP file directly to your accountant, or copy the folder to a USB drive to give to them.' },
+    ],
+    tip: '💡 Tip: Getting into the habit of photographing every receipt when it happens will save a lot of searching at tax time.'
+  },
+  'add-member': {
+    title: '👤 Adding a member',
+    steps: [
+      { title: 'Click the "Members" button', detail: 'This is in the top right corner of every page, next to "Sign Out".' },
+      { title: 'Click "+ Add Member"', detail: 'The gold button in the top right of the Members directory page.' },
+      { title: 'Enter their details', detail: 'Fill in their First Name, Last Name, Address, Phone Number and Email Address. All fields except First and Last Name are optional.' },
+      { title: 'Add their date of birth (optional)', detail: 'If you add their birthday, it will automatically appear in the upcoming events panel and on the calendar every year.' },
+      { title: 'Set membership fee status', detail: 'Click "Paid" if they have paid their membership fee, or "Not Yet Paid" if they have not. You can change this at any time by editing the member.' },
+      { title: 'Click "Save Member"', detail: 'The member is now saved and will appear in the Members directory.' },
+      { title: 'Editing a member', detail: 'To change any details — for example to mark their fee as paid — find them in the Members directory and click the "Edit" button on their card.' },
+    ],
+    tip: '💡 Tip: Once you have added members with email addresses, you can use the "✉ Email Members" button to send emails to all of them at once — great for meeting reminders and announcements.'
+  },
+  'add-event': {
+    title: '📅 Adding an event',
+    steps: [
+      { title: 'Find the Upcoming Events panel', detail: 'This is on the right side of the dashboard, above the Recent Transactions panel.' },
+      { title: 'Click "+ Add"', detail: 'The small button next to "Upcoming Events".' },
+      { title: 'Enter the event name', detail: 'For example: "Club Meeting", "Bunnings BBQ", "Anzac Day Pancake Breakfast".' },
+      { title: 'Select the date', detail: 'Click the date field and choose when the event is happening.' },
+      { title: 'Choose the event type', detail: 'Club Meeting, Fundraiser, Social Event, Birthday or Other. This affects the colour of the dot on the calendar.' },
+      { title: 'Add notes (optional)', detail: 'You can add the location or time here — for example "Shearwater Resort, 7pm".' },
+      { title: 'Click "Save Event"', detail: 'The event will appear in the Upcoming Events panel and on the calendar. It will also be automatically added to the Port Sorell Lions Club Google Calendar.' },
+    ],
+    tip: '💡 Tip: Member birthdays are added automatically when you add a member with a date of birth — you do not need to add them as events manually.'
+  },
+  'google-drive': {
+    title: '📁 Club documents (Google Drive)',
+    steps: [
+      { title: 'Opening the documents folder', detail: 'Click the "📁 Club Documents" button at the bottom of the dashboard. This opens the Port Sorell Lions Club Google Drive folder in a new tab.' },
+      { title: 'Signing in to Google Drive', detail: 'If asked to sign in, use the club email address: PortSorellLionsClub@gmail.com' },
+      { title: 'Uploading a document', detail: 'To upload a Word document or Excel spreadsheet, click the "+ New" button in Google Drive, then "File upload". Find the file on your computer and click Open. The file will upload to the folder.' },
+      { title: 'Opening a document', detail: 'Click on any file in the folder. Google Drive will show you a preview. To open it properly in Word or Excel, click the download button (down arrow icon) and it will save to your computer. Then double-click it to open in Word or Excel as normal.' },
+      { title: 'Sharing a document', detail: 'Right-click any file and choose "Share". You can send a link to specific people or copy the link to share in an email.' },
+      { title: 'Organising documents', detail: 'You can create sub-folders inside the main folder — for example "AGM Minutes", "Financial Reports", "Member Certificates". Right-click in the empty space and choose "New folder".' },
+    ],
+    tip: '💡 Tip: Any document you upload to Google Drive is automatically backed up and can be accessed from any computer or phone. You will never lose a document again.'
+  },
+  'email-members': {
+    title: '✉️ Emailing members',
+    steps: [
+      { title: 'Go to the Members directory', detail: 'Click "Members" in the top right corner.' },
+      { title: 'Click "✉ Email Members"', detail: 'This button is near the top right of the Members directory page.' },
+      { title: 'Select who to email', detail: 'All members with email addresses will be shown with tick boxes. By default all are ticked. You can untick anyone you do not want to include, or use the "Paid Members Only" button to select only paid members.' },
+      { title: 'Type a subject', detail: 'For example: "Port Sorell Lions Club — Meeting Reminder".' },
+      { title: 'Type your message', detail: 'Write your email message in the text box.' },
+      { title: 'Click "Open in Email App"', detail: 'This will open your email program (Outlook or similar) with all the selected members already added in the BCC field and your message ready to go. You just click Send.' },
+    ],
+    tip: '💡 Tip: Members are added to BCC (blind copy) so they cannot see each other\'s email addresses — this is good practice for privacy.'
+  },
+  'backup': {
+    title: '💾 Backing up your data',
+    steps: [
+      { title: 'Your data is already safe in the cloud', detail: 'All transactions, members and events are stored securely in the Supabase cloud database. Even if your computer breaks down, all the data is safe.' },
+      { title: 'When to use the Backup button', detail: 'Click "💾 Backup Data" at the bottom of the dashboard before any major changes — for example before a new financial year, or before showing the records at the AGM.' },
+      { title: 'What the backup file contains', detail: 'The backup downloads a file called something like "lions-treasurer-backup-2026-06-03.json" to your Downloads folder. This file contains every transaction, member and event.' },
+      { title: 'Storing your backup safely', detail: 'Copy the backup file to a USB drive or upload it to the Google Drive documents folder for safekeeping.' },
+      { title: 'If something ever goes wrong', detail: 'Contact the person who set up this system and they can restore from the backup file if needed.' },
+    ],
+    tip: '💡 Tip: A good habit is to take a backup at the end of each month and save it in the Google Drive documents folder with the date in the filename.'
+  },
+  'dashboard': {
+    title: '📊 Reading the dashboard',
+    steps: [
+      { title: 'Overall Financial Position', detail: 'The four boxes at the top show the total income received, total expenses paid, the net surplus (income minus expenses), and the total value of investment accounts — all for the month selected in the top right.' },
+      { title: 'The month filter', detail: 'Use the dropdown in the top right to switch between months, or choose "All Time" to see the full year totals.' },
+      { title: 'Account cards', detail: 'Each of the four account cards (Tip Shop, Activities, Convention, Administration) shows the current balance, income and expenses for that account. Click any card to see all the individual transactions.' },
+      { title: 'Investment Accounts', detail: 'These are shown for reference only — the balances and due dates need to be updated manually when they change.' },
+      { title: 'Upcoming Events panel', detail: 'Shows the next events coming up in the next 90 days, including birthdays of members. Click "+ Add" to add a new event.' },
+      { title: 'Recent Transactions panel', detail: 'Shows the last 5 transactions entered across all accounts. Click "View All →" to see every transaction with search and filter options.' },
+      { title: 'The calendar', detail: 'Shows a full monthly calendar with coloured dots for events. Click any date that has events to see the details. Use the arrows to move between months.' },
+    ],
+    tip: '💡 Tip: The dashboard updates in real time — as soon as you add a transaction, the totals change immediately.'
+  },
+  'printing': {
+    title: '🖨️ Printing reports',
+    steps: [
+      { title: 'Printing the dashboard', detail: 'Click the "🖨 Print" button in the top right of the dashboard. This will print the current month\'\2 financial summary including all account totals.' },
+      { title: 'Printing a single account', detail: 'Click on any account card (e.g. Activities) to open it, then click the "🖨 Print" button. This prints all transactions for that account.' },
+      { title: 'Printing all transactions', detail: 'Click "All Transactions" in the navigation bar, use the filters to select what you want (e.g. a specific month or account), then click "🖨 Print".' },
+      { title: 'Printing the events calendar', detail: 'Click "Open Google Calendar" and then use the print option in Google Calendar (Settings cog → Print, or Cmd+P on Mac / Ctrl+P on Windows). Google Calendar prints a beautiful landscape calendar.' },
+      { title: 'Printing the members list', detail: 'Go to Members, set any filters you need (e.g. Unpaid Only), then use your browser\'\2 print function (Cmd+P on Mac / Ctrl+P on Windows).' },
+    ],
+    tip: '💡 Tip: For the best printed results, choose "Landscape" orientation and set margins to "Minimum" in your print settings.'
+  },
+  'google-calendar': {
+    title: '🗓️ Using Google Calendar',
+    steps: [
+      { title: 'Events sync automatically', detail: 'When you add an event in this program, it is automatically added to the Port Sorell Lions Club Google Calendar. You do not need to add it twice.' },
+      { title: 'Opening Google Calendar', detail: 'Click "📅 Open Google Calendar" on the dashboard calendar, or "📅 Google Calendar" in the All Events section.' },
+      { title: 'Syncing all events at once', detail: 'Click "🔄 Sync All Events" on the dashboard calendar. This will add all existing events and member birthdays to Google Calendar in one go. The system will skip any events that are already there.' },
+      { title: 'Printing the calendar', detail: 'In Google Calendar, click the Settings cog (⚙️) in the top right, then "Print". Choose your options and click Print. This gives a clean, professional printed calendar.' },
+      { title: 'Adding events directly in Google Calendar', detail: 'You can also add events directly in Google Calendar if you prefer. Note that events added in Google Calendar will not automatically appear in this program — it is best to add events here so everything stays in sync.' },
+    ],
+    tip: '💡 Tip: You can share the Google Calendar link with other committee members so they can see upcoming events on their own devices without needing to log in to this system.'
+  },
+  'investments': {
+    title: '📈 Investment accounts',
+    steps: [
+      { title: 'Finding the investment accounts', detail: 'The investment accounts are shown at the bottom of the dashboard, and in detail on the Investments page (click "Investments" in the navigation bar).' },
+      { title: 'What is shown', detail: 'The investment accounts show the name of the bank, the type of account, the current balance, and the maturity date for term deposits.' },
+      { title: 'Updating the balances', detail: 'The investment account figures need to be updated manually when they change. Contact the person who manages this system and they can update the figures.' },
+      { title: 'Term deposit maturity dates', detail: 'When a term deposit matures, contact your bank to discuss renewal options. Update the new maturity date in this system so you do not miss it.' },
+      { title: 'The investments are view only', detail: 'Money cannot be transferred into or out of investment accounts through this system. All investment transactions are handled directly with the bank.' },
+    ],
+    tip: '💡 Tip: Set a calendar reminder a month before each term deposit matures so you have time to discuss renewal options with the bank.'
+  },
+};
+
+function openGuide(guideId) {
+  var guide = GUIDES[guideId];
+  if (!guide) return;
+  document.getElementById('guide-modal-title').textContent = guide.title;
+  var html = guide.steps.map(function(step, i) {
+    return '<div class="guide-step">' +
+      '<div class="guide-step-num">' + (i+1) + '</div>' +
+      '<div class="guide-step-text">' +
+        '<div class="guide-step-title">' + step.title + '</div>' +
+        '<div class="guide-step-detail">' + step.detail + '</div>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+  if (guide.tip) {
+    html += '<div class="guide-tip">' + guide.tip + '</div>';
+  }
+  document.getElementById('guide-modal-body').innerHTML = html;
+  document.getElementById('guide-modal').classList.add('open');
 }
 
 // ── RECENT TRANSACTIONS FEED ──────────────────────────────────────────────────
