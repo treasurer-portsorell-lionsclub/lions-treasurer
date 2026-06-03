@@ -1666,7 +1666,7 @@
           <div class="page-sub" id="dash-period">June 2026 · All accounts</div>
         </div>
         <div style="display:flex;gap:8px;align-items:center;">
-          <select id="month-select" style="padding:8px 12px;border:1px solid var(--border);border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:14px;background:white;color:var(--navy);" onchange="renderDashboard()">
+          <select id="month-select" style="padding:8px 12px;border:1px solid var(--border);border-radius:var(--radius);font-family:Arial,sans-serif;font-size:14px;background:white;color:var(--navy);" onchange="renderDashboard()">
             <option value="all">All Time</option>
             <option value="0">January</option>
             <option value="1">February</option>
@@ -1781,11 +1781,11 @@
             <span id="guide-chevron" style="font-size:12px;opacity:0.8;">▼</span>
           </button>
           <button class="btn-guide btn-guide-red" onclick="window.open('https://drive.google.com/drive/folders/1igINgSjkupj-bBXmDapZT2PF7RwVcnCP?usp=sharing','_blank')">
-            <span class="guide-icon" style="display:flex;align-items:center;background:white;border-radius:8px;padding:4px;"><svg width="22" height="22" viewBox="0 0 87.3 78" xmlns="http://www.w3.org/2000/svg"><path d="m6.6 66.85 3.85 6.65c.8 1.4 1.95 2.5 3.3 3.3l13.75-23.8h-27.5c0 1.55.4 3.1 1.2 4.5z" fill="#0066da"/><path d="m43.65 25-13.75-23.8c-1.35.8-2.5 1.9-3.3 3.3l-25.4 44a9.06 9.06 0 0 0 -1.2 4.5h27.5z" fill="#00ac47"/><path d="m73.55 76.8c1.35-.8 2.5-1.9 3.3-3.3l1.6-2.75 7.65-13.25c.8-1.4 1.2-2.95 1.2-4.5h-27.502l5.852 11.5z" fill="#ea4335"/><path d="m43.65 25 13.75-23.8c-1.35-.8-2.9-1.2-4.5-1.2h-18.5c-1.6 0-3.15.45-4.5 1.2z" fill="#00832d"/><path d="m59.8 53h-32.3l-13.75 23.8c1.35.8 2.9 1.2 4.5 1.2h50.8c1.6 0 3.15-.45 4.5-1.2z" fill="#2684fc"/><path d="m73.4 26.5-12.7-22c-.8-1.4-1.95-2.5-3.3-3.3l-13.75 23.8 16.15 28h27.45c0-1.55-.4-3.1-1.2-4.5z" fill="#ffba00"/></svg></span>
+            <span class="guide-icon"><img src="https://ssl.gstatic.com/images/branding/product/1x/drive_2020q4_32dp.png" width="28" height="28" alt="Google Drive" style="display:block;"></span>
             <span style="flex:1;">Google Drive Documents</span>
           </button>
           <button class="btn-guide btn-guide-gold" onclick="window.open('https://calendar.google.com/calendar/u/1/r','_blank')">
-            <span class="guide-icon" style="display:flex;align-items:center;background:white;border-radius:8px;padding:4px;"><svg width="22" height="22" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><rect width="24" height="24" rx="3" fill="white"/><rect x="1" y="5" width="22" height="18" rx="2" fill="white" stroke="#dadce0" stroke-width="1.5"/><path d="M1 9h22" stroke="#dadce0" stroke-width="1.5"/><rect x="7" y="1" width="2.5" height="6" rx="1.25" fill="#1a73e8"/><rect x="14.5" y="1" width="2.5" height="6" rx="1.25" fill="#1a73e8"/><text x="12" y="19" text-anchor="middle" font-size="7" font-family="Arial,sans-serif" font-weight="900" fill="#1a73e8">31</text><rect x="3" y="11" width="5" height="1.5" rx=".75" fill="#ea4335"/><rect x="3" y="14" width="7" height="1.5" rx=".75" fill="#5f6368"/><rect x="3" y="17" width="5" height="1.5" rx=".75" fill="#5f6368"/></svg></span>
+            <span class="guide-icon"><img src="https://ssl.gstatic.com/calendar/images/dynamiclogo_2020q4/calendar_31_2x.png" width="28" height="28" alt="Google Calendar" style="display:block;"></span>
             <span style="flex:1;">Open Google Calendar</span>
           </button>
         </div>
@@ -1891,7 +1891,7 @@
 
       <!-- Filter -->
       <div style="display:flex;gap:8px;margin-bottom:1.2rem;flex-wrap:wrap;">
-        <select id="allevents-filter" onchange="renderAllEvents()" style="padding:9px 12px;border:1px solid var(--border);border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:14px;background:white;color:var(--navy);">
+        <select id="allevents-filter" onchange="renderAllEvents()" style="padding:9px 12px;border:1px solid var(--border);border-radius:var(--radius);font-family:Arial,sans-serif;font-size:14px;background:white;color:var(--navy);">
           <option value="all">All Types</option>
           <option value="meeting">Club Meetings</option>
           <option value="fundraiser">Fundraisers</option>
@@ -1899,7 +1899,7 @@
           <option value="birthday">Birthdays</option>
           <option value="other">Other</option>
         </select>
-        <select id="allevents-month" onchange="renderAllEvents()" style="padding:9px 12px;border:1px solid var(--border);border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:14px;background:white;color:var(--navy);">
+        <select id="allevents-month" onchange="renderAllEvents()" style="padding:9px 12px;border:1px solid var(--border);border-radius:var(--radius);font-family:Arial,sans-serif;font-size:14px;background:white;color:var(--navy);">
           <option value="all">All Months</option>
           <option value="0">January</option><option value="1">February</option>
           <option value="2">March</option><option value="3">April</option>
@@ -1966,7 +1966,7 @@
 
           <div id="rpt-month-wrap" class="form-group" style="margin:0;min-width:160px;">
             <label style="font-size:12px;">Month</label>
-            <select id="rpt-month" style="padding:9px 12px;border:1px solid var(--border);border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:14px;background:white;">
+            <select id="rpt-month" style="padding:9px 12px;border:1px solid var(--border);border-radius:var(--radius);font-family:Arial,sans-serif;font-size:14px;background:white;">
               <option value="0">January</option><option value="1">February</option>
               <option value="2">March</option><option value="3">April</option>
               <option value="4">May</option><option value="5" selected>June</option>
@@ -1978,7 +1978,7 @@
 
           <div id="rpt-year-wrap" class="form-group" style="margin:0;min-width:120px;">
             <label style="font-size:12px;">Year</label>
-            <select id="rpt-year" style="padding:9px 12px;border:1px solid var(--border);border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:14px;background:white;" id="rpt-year">
+            <select id="rpt-year" style="padding:9px 12px;border:1px solid var(--border);border-radius:var(--radius);font-family:Arial,sans-serif;font-size:14px;background:white;" id="rpt-year">
               <option value="2025">2025</option>
               <option value="2026" selected>2026</option>
               <option value="2027">2027</option>
@@ -1987,7 +1987,7 @@
 
           <div id="rpt-account-wrap" class="form-group" style="display:none;margin:0;min-width:180px;">
             <label style="font-size:12px;">Account</label>
-            <select id="rpt-account" style="padding:9px 12px;border:1px solid var(--border);border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:14px;background:white;">
+            <select id="rpt-account" style="padding:9px 12px;border:1px solid var(--border);border-radius:var(--radius);font-family:Arial,sans-serif;font-size:14px;background:white;">
               <option value="tipshop">Tip Shop</option>
               <option value="activities">Activities</option>
               <option value="convention">Convention</option>
@@ -1997,7 +1997,7 @@
 
           <div id="rpt-include-wrap" class="form-group" style="margin:0;">
             <label style="font-size:12px;">Include transactions</label>
-            <select id="rpt-include" style="padding:9px 12px;border:1px solid var(--border);border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:14px;background:white;">
+            <select id="rpt-include" style="padding:9px 12px;border:1px solid var(--border);border-radius:var(--radius);font-family:Arial,sans-serif;font-size:14px;background:white;">
               <option value="all">All transactions</option>
               <option value="income">Income only</option>
               <option value="expense">Expenses only</option>
@@ -2034,20 +2034,20 @@
       <!-- Filters -->
       <div class="filter-bar" style="margin-bottom:1.2rem;flex-wrap:wrap;gap:8px;">
         <input type="text" id="alltx-search" placeholder="Search description…" oninput="renderAllTx()"
-          style="padding:9px 13px;border:1px solid var(--border);border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:14px;background:white;color:var(--navy);flex:1;min-width:160px;">
-        <select id="alltx-account" onchange="renderAllTx()" style="padding:9px 12px;border:1px solid var(--border);border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:14px;background:white;color:var(--navy);">
+          style="padding:9px 13px;border:1px solid var(--border);border-radius:var(--radius);font-family:Arial,sans-serif;font-size:14px;background:white;color:var(--navy);flex:1;min-width:160px;">
+        <select id="alltx-account" onchange="renderAllTx()" style="padding:9px 12px;border:1px solid var(--border);border-radius:var(--radius);font-family:Arial,sans-serif;font-size:14px;background:white;color:var(--navy);">
           <option value="all">All accounts</option>
           <option value="tipshop">Tip Shop</option>
           <option value="activities">Activities</option>
           <option value="convention">Convention</option>
           <option value="admin">Administration</option>
         </select>
-        <select id="alltx-type" onchange="renderAllTx()" style="padding:9px 12px;border:1px solid var(--border);border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:14px;background:white;color:var(--navy);">
+        <select id="alltx-type" onchange="renderAllTx()" style="padding:9px 12px;border:1px solid var(--border);border-radius:var(--radius);font-family:Arial,sans-serif;font-size:14px;background:white;color:var(--navy);">
           <option value="all">Income &amp; expenses</option>
           <option value="income">Income Only</option>
           <option value="expense">Expenses Only</option>
         </select>
-        <select id="alltx-month" onchange="renderAllTx()" style="padding:9px 12px;border:1px solid var(--border);border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:14px;background:white;color:var(--navy);">
+        <select id="alltx-month" onchange="renderAllTx()" style="padding:9px 12px;border:1px solid var(--border);border-radius:var(--radius);font-family:Arial,sans-serif;font-size:14px;background:white;color:var(--navy);">
           <option value="all">All Months</option>
           <option value="0">January</option>
           <option value="1">February</option>
@@ -2150,7 +2150,7 @@
 
       <div class="members-search">
         <input type="text" id="member-search" placeholder="Search by name, phone or email…" oninput="renderMembers()">
-        <select id="member-filter" onchange="renderMembers()" style="padding:10px 12px;border:1px solid var(--border);border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:14px;background:white;color:var(--navy);">
+        <select id="member-filter" onchange="renderMembers()" style="padding:10px 12px;border:1px solid var(--border);border-radius:var(--radius);font-family:Arial,sans-serif;font-size:14px;background:white;color:var(--navy);">
           <option value="all">All Members</option>
           <option value="paid">Paid only</option>
           <option value="unpaid">Unpaid only</option>
@@ -3714,19 +3714,30 @@ function generateReport() {
 
   if (!html) { showToast('Could not generate report'); return; }
 
-  // Print via iframe
-  var old = document.getElementById('report-print-frame');
-  if (old) old.parentNode.removeChild(old);
-  var iframe = document.createElement('iframe');
-  iframe.id = 'report-print-frame';
-  iframe.style.cssText = 'position:fixed;top:-9999px;left:-9999px;width:1px;height:1px;border:none;';
-  document.body.appendChild(iframe);
+  // Show preview modal instead of auto-printing
+  var previewModal = document.getElementById('report-preview-modal');
+  if (!previewModal) {
+    previewModal = document.createElement('div');
+    previewModal.id = 'report-preview-modal';
+    previewModal.style.cssText = 'position:fixed;inset:0;background:rgba(26,39,68,0.7);z-index:9999;display:flex;flex-direction:column;padding:20px;';
+    previewModal.innerHTML = '<div style="background:white;border-radius:12px;overflow:hidden;flex:1;display:flex;flex-direction:column;max-width:900px;margin:0 auto;width:100%;">' +
+      '<div style="background:#1A2744;padding:12px 20px;display:flex;align-items:center;justify-content:space-between;">' +
+        '<span style="color:white;font-family:Arial,sans-serif;font-size:15px;font-weight:500;">Report Preview</span>' +
+        '<div style="display:flex;gap:8px;">' +
+          '<button onclick="document.getElementById(&quot;report-print-frame&quot;).contentWindow.print()" style="background:#C8960C;color:white;border:none;padding:8px 18px;border-radius:8px;font-family:Arial,sans-serif;font-size:14px;font-weight:500;cursor:pointer;">🖨️ Print</button>' +
+          '<button onclick="document.getElementById(&quot;report-preview-modal&quot;).remove()" style="background:rgba(255,255,255,0.15);color:white;border:none;padding:8px 14px;border-radius:8px;font-family:Arial,sans-serif;font-size:14px;cursor:pointer;">✕ Close</button>' +
+        '</div>' +
+      '</div>' +
+      '<iframe id="report-print-frame" style="flex:1;border:none;width:100%;"></iframe>' +
+    '</div>';
+    document.body.appendChild(previewModal);
+  } else {
+    previewModal.style.display = 'flex';
+  }
+
+  var iframe = document.getElementById('report-print-frame');
   var doc = iframe.contentWindow.document;
   doc.open(); doc.write(html); doc.close();
-  setTimeout(function() {
-    iframe.contentWindow.focus();
-    iframe.contentWindow.print();
-  }, 500);
 }
 
 // ── HOW TO GUIDES ─────────────────────────────────────────────────────────────
