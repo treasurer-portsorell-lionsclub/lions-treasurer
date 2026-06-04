@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+\<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -2675,7 +2675,7 @@ function renderDetail(accountId) {
         <span class="tx-desc">${t.desc}</span>
         <span class="tx-cat">${t.category}</span>
         <span class="tx-amt ${isInc ? 'inc' : 'exp'}">${isInc ? '+' : '-'}${fmt(t.amount)}</span>
-        <span class="tx-chevron" id="chev-${t.id}" style="color:var(--text-muted);font-size:13px;transition:transform 0.2s;display:inline-block;">&#8250;</span>
+        <span style="display:flex;align-items:center;gap:6px;">${currentRole !== 'auditor' ? '<button class="btn-icon danger" onclick="deleteTx(' + JSON.stringify(t.id) + ');event.stopPropagation();" style="font-size:11px;padding:3px 8px;">🗑️</button>' : ''}<span class="tx-chevron" id="chev-${t.id}" style="color:var(--text-muted);font-size:13px;transition:transform 0.2s;display:inline-block;">&#8250;</span></span>
       </div>
       <div class="tx-detail-panel" id="detail-${t.id}" style="display:none;">
         <div class="tx-detail-inner">
