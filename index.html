@@ -1,4 +1,4 @@
-\<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -2675,7 +2675,7 @@ function renderDetail(accountId) {
         <span class="tx-desc">${t.desc}</span>
         <span class="tx-cat">${t.category}</span>
         <span class="tx-amt ${isInc ? 'inc' : 'exp'}">${isInc ? '+' : '-'}${fmt(t.amount)}</span>
-        <span style="display:flex;align-items:center;gap:6px;">${currentRole !== 'auditor' ? '<button class="btn-icon danger" onclick="deleteTx(' + JSON.stringify(t.id) + ');event.stopPropagation();" style="font-size:11px;padding:3px 8px;">🗑️</button>' : ''}<span class="tx-chevron" id="chev-${t.id}" style="color:var(--text-muted);font-size:13px;transition:transform 0.2s;display:inline-block;">&#8250;</span></span>
+        <span style="display:flex;align-items:center;gap:6px;">${currentRole !== 'auditor' ? '<button onclick="deleteTx(' + JSON.stringify(t.id) + ');event.stopPropagation();" style="background:#C0392B;color:white;border:none;border-radius:6px;padding:3px 10px;font-size:11px;cursor:pointer;">🗑️</button>' : ''}<span class="tx-chevron" id="chev-${t.id}" style="color:var(--text-muted);font-size:13px;transition:transform 0.2s;display:inline-block;">&#8250;</span></span>
       </div>
       <div class="tx-detail-panel" id="detail-${t.id}" style="display:none;">
         <div class="tx-detail-inner">
@@ -2687,7 +2687,7 @@ function renderDetail(accountId) {
             <div class="tx-detail-item" style="grid-column:1/-1"><span class="tx-detail-label">Description</span><span class="tx-detail-val">${t.desc}</span></div>
           </div>
           ${t.receipt ? '<div style="margin-top:12px;"><p class="tx-detail-label" style="margin-bottom:8px;">Receipt</p><img src="' + t.receipt + '" style="max-width:280px;width:100%;border-radius:var(--radius);border:1px solid var(--border);cursor:pointer;" onclick="viewReceipt(' + JSON.stringify(t.id) + ',event)" title="Click to enlarge"><p style="font-size:11px;color:var(--text-muted);margin-top:4px;">Click image to enlarge</p></div>' : '<p style="font-size:13px;color:var(--text-muted);margin-top:10px;">No receipt attached.</p>'}
-          ${currentRole !== 'auditor' ? '<div style="display:flex;gap:8px;margin-top:14px;padding-top:12px;border-top:1px solid var(--border);"><button class="btn btn-secondary" style="font-size:13px;padding:7px 16px;" onclick="editTx(' + JSON.stringify(t.id) + ')">✏️ Edit</button><button class="btn-icon danger" style="font-size:13px;padding:7px 14px;" onclick="deleteTx(' + JSON.stringify(t.id) + ')">🗑️ Delete</button></div>' : ''}
+          ${currentRole !== 'auditor' ? '<div style="display:flex;gap:8px;margin-top:14px;padding-top:12px;border-top:1px solid #DDE2EE;"><button style="background:#1A2744;color:white;border:none;border-radius:8px;padding:7px 16px;font-size:13px;cursor:pointer;" onclick="editTx(' + JSON.stringify(t.id) + ')">✏️ Edit</button><button style="background:#C0392B;color:white;border:none;border-radius:8px;padding:7px 16px;font-size:13px;cursor:pointer;" onclick="deleteTx(' + JSON.stringify(t.id) + ')">🗑️ Delete</button></div>' : ''}
         </div>
       </div>`;
   }).join('');
@@ -2985,7 +2985,7 @@ function renderAllTx() {
           <div class="tx-detail-item" style="grid-column:1/-1"><span class="tx-detail-label">Description</span><span class="tx-detail-val">${t.desc}</span></div>
         </div>
         ${t.receipt ? '<div style="margin-top:12px;"><p class="tx-detail-label" style="margin-bottom:8px;">Receipt</p><img src="' + t.receipt + '" style="max-width:280px;width:100%;border-radius:var(--radius);border:1px solid var(--border);cursor:pointer;" onclick="viewReceipt(' + JSON.stringify(t.id) + ',event)"><p style="font-size:11px;color:var(--text-muted);margin-top:4px;">Click to enlarge</p></div>' : '<p style="font-size:13px;color:var(--text-muted);margin-top:10px;">No receipt attached.</p>'}
-        ${currentRole !== 'auditor' ? '<div style="display:flex;gap:8px;margin-top:14px;padding-top:12px;border-top:1px solid var(--border);"><button class="btn btn-secondary" style="font-size:13px;padding:7px 16px;" onclick="editTx(' + JSON.stringify(t.id) + ')">✏️ Edit</button><button class="btn-icon danger" style="font-size:13px;padding:7px 14px;" onclick="deleteTx(' + JSON.stringify(t.id) + ')">🗑️ Delete</button></div>' : ''}
+        ${currentRole !== 'auditor' ? '<div style="display:flex;gap:8px;margin-top:14px;padding-top:12px;border-top:1px solid #DDE2EE;"><button style="background:#1A2744;color:white;border:none;border-radius:8px;padding:7px 16px;font-size:13px;cursor:pointer;" onclick="editTx(' + JSON.stringify(t.id) + ')">✏️ Edit</button><button style="background:#C0392B;color:white;border:none;border-radius:8px;padding:7px 16px;font-size:13px;cursor:pointer;" onclick="deleteTx(' + JSON.stringify(t.id) + ')">🗑️ Delete</button></div>' : ''}
       </div>
     </div>`;
   }).join('');
