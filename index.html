@@ -2510,6 +2510,7 @@ let currentRole = 'treasurer';
 let currentAccount = null;
 let currentType = 'income';
 let receiptData = null;
+let editingTxId = null;
 
 async function loadData() {
   try {
@@ -2686,6 +2687,7 @@ function renderDetail(accountId) {
             <div class="tx-detail-item" style="grid-column:1/-1"><span class="tx-detail-label">Description</span><span class="tx-detail-val">${t.desc}</span></div>
           </div>
           ${t.receipt ? '<div style="margin-top:12px;"><p class="tx-detail-label" style="margin-bottom:8px;">Receipt</p><img src="' + t.receipt + '" style="max-width:280px;width:100%;border-radius:var(--radius);border:1px solid var(--border);cursor:pointer;" onclick="viewReceipt(' + JSON.stringify(t.id) + ',event)" title="Click to enlarge"><p style="font-size:11px;color:var(--text-muted);margin-top:4px;">Click image to enlarge</p></div>' : '<p style="font-size:13px;color:var(--text-muted);margin-top:10px;">No receipt attached.</p>'}
+          ${currentRole !== 'auditor' ? '<div style="display:flex;gap:8px;margin-top:14px;padding-top:12px;border-top:1px solid var(--border);"><button class="btn btn-secondary" style="font-size:13px;padding:7px 16px;" onclick="editTx(' + JSON.stringify(t.id) + ')">✏️ Edit</button><button class="btn-icon danger" style="font-size:13px;padding:7px 14px;" onclick="deleteTx(' + JSON.stringify(t.id) + ')">🗑️ Delete</button></div>' : ''}
         </div>
       </div>`;
   }).join('');
@@ -2712,6 +2714,11 @@ function openTxModal(accountId) {
 
 function closeTxModal() {
   document.getElementById('tx-modal').classList.remove('open');
+  if (editingTxId) {
+    editingTxId = null;
+    document.querySelector('#tx-modal .modal-title').textContent = 'Add Transaction';
+    document.querySelector('#tx-modal .btn-gold').textContent = 'Save Transaction';
+  }
 }
 
 function setType(t) {
@@ -2742,6 +2749,7 @@ function handleReceipt(e) {
 }
 
 async function saveTx() {
+  if (editingTxId) { await saveEditedTx(); return; }
   const amount = parseFloat(document.getElementById('tx-amount').value);
   const desc   = document.getElementById('tx-desc').value.trim();
   const date   = document.getElementById('tx-date').value;
@@ -2977,6 +2985,7 @@ function renderAllTx() {
           <div class="tx-detail-item" style="grid-column:1/-1"><span class="tx-detail-label">Description</span><span class="tx-detail-val">${t.desc}</span></div>
         </div>
         ${t.receipt ? '<div style="margin-top:12px;"><p class="tx-detail-label" style="margin-bottom:8px;">Receipt</p><img src="' + t.receipt + '" style="max-width:280px;width:100%;border-radius:var(--radius);border:1px solid var(--border);cursor:pointer;" onclick="viewReceipt(' + JSON.stringify(t.id) + ',event)"><p style="font-size:11px;color:var(--text-muted);margin-top:4px;">Click to enlarge</p></div>' : '<p style="font-size:13px;color:var(--text-muted);margin-top:10px;">No receipt attached.</p>'}
+        ${currentRole !== 'auditor' ? '<div style="display:flex;gap:8px;margin-top:14px;padding-top:12px;border-top:1px solid var(--border);"><button class="btn btn-secondary" style="font-size:13px;padding:7px 16px;" onclick="editTx(' + JSON.stringify(t.id) + ')">✏️ Edit</button><button class="btn-icon danger" style="font-size:13px;padding:7px 14px;" onclick="deleteTx(' + JSON.stringify(t.id) + ')">🗑️ Delete</button></div>' : ''}
       </div>
     </div>`;
   }).join('');
@@ -3925,6 +3934,93 @@ function openGuide(guideId) {
   }
   document.getElementById('guide-modal-body').innerHTML = html;
   document.getElementById('guide-modal').classList.add('open');
+}
+
+
+// ── EDIT AND DELETE TRANSACTIONS ─────────────────────────────────────────────
+async function deleteTx(id) {
+  if (!confirm('Are you sure you want to delete this transaction? This cannot be undone.')) return;
+  try {
+    const { error } = await supabaseClient.from('transactions').delete().eq('id', id);
+    if (error) throw error;
+  } catch(e) {
+    console.error('deleteTx error:', e);
+  }
+  transactions = transactions.filter(t => t.id != id);
+  localStorage.setItem('lc_transactions', JSON.stringify(transactions));
+  showToast('Transaction deleted');
+  renderRecentTx();
+  if (currentAccount) renderDetail(currentAccount);
+  else { renderDashboard(); renderAllTx && renderAllTx(); }
+}
+
+function editTx(id) {
+  const t = transactions.find(tx => tx.id == id);
+  if (!t) return;
+  // Close the detail panel
+  document.querySelectorAll('.tx-detail-panel').forEach(p => p.style.display = 'none');
+  document.querySelectorAll('.tx-chevron').forEach(c => { c.style.transform = ''; c.style.color = 'var(--text-muted)'; });
+  // Pre-fill the modal
+  editingTxId = id;
+  document.getElementById('tx-account').value = t.account;
+  setType(t.type);
+  updateCategories();
+  document.getElementById('tx-category').value = t.category;
+  document.getElementById('tx-amount').value = t.amount;
+  document.getElementById('tx-desc').value = t.desc || t.description || '';
+  document.getElementById('tx-date').value = t.date;
+  receiptData = t.receipt || null;
+  if (receiptData) {
+    document.getElementById('receipt-preview').src = receiptData;
+    document.getElementById('receipt-preview').style.display = 'block';
+    document.getElementById('upload-label').textContent = '✓ Receipt attached';
+  } else {
+    document.getElementById('receipt-preview').style.display = 'none';
+    document.getElementById('upload-label').textContent = 'Tap to attach a photo of the receipt';
+  }
+  // Change modal title and button
+  document.querySelector('#tx-modal .modal-title').textContent = 'Edit Transaction';
+  document.querySelector('#tx-modal .btn-gold').textContent = 'Save Changes';
+  document.getElementById('tx-modal').classList.add('open');
+}
+
+async function saveEditedTx() {
+  const amount = parseFloat(document.getElementById('tx-amount').value);
+  const desc   = document.getElementById('tx-desc').value.trim();
+  const date   = document.getElementById('tx-date').value;
+  if (!amount || amount <= 0) { showToast('Please enter a valid amount'); return; }
+  if (!desc)  { showToast('Please enter a description'); return; }
+  if (!date)  { showToast('Please select a date'); return; }
+
+  const updates = {
+    account:     document.getElementById('tx-account').value,
+    type:        currentType,
+    category:    document.getElementById('tx-category').value,
+    amount:      amount,
+    description: desc,
+    date:        date,
+    receipt:     receiptData,
+  };
+
+  try {
+    const { error } = await supabaseClient.from('transactions').update(updates).eq('id', editingTxId);
+    if (error) throw error;
+  } catch(e) {
+    console.error('saveEditedTx error:', e);
+  }
+
+  const idx = transactions.findIndex(t => t.id == editingTxId);
+  if (idx >= 0) transactions[idx] = { ...transactions[idx], ...updates, desc: desc };
+  localStorage.setItem('lc_transactions', JSON.stringify(transactions));
+
+  editingTxId = null;
+  document.querySelector('#tx-modal .modal-title').textContent = 'Add Transaction';
+  document.querySelector('#tx-modal .btn-gold').textContent = 'Save Transaction';
+  closeTxModal();
+  showToast('Transaction updated ✓');
+  renderRecentTx();
+  if (currentAccount) renderDetail(currentAccount);
+  else renderDashboard();
 }
 
 // ── RECENT TRANSACTIONS FEED ──────────────────────────────────────────────────
